@@ -18,6 +18,18 @@ app.get('/talker', async (_req, res) => {
   }
 });
 
+app.get('/talker/:id', async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const allTalkers = await getData();
+    const desiredTalker = allTalkers.find((talker) => talker.id === Number(id));
+    if (!desiredTalker) return next({ code: 404, message: 'Pessoa palestrante não encontrada' });
+    res.status(HTTP_OK_STATUS).json(desiredTalker);
+  } catch (error) {
+    next({ code: 404, message: 'Pessoa palestrante não encontrada' });
+  }
+});
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
