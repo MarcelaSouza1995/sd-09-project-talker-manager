@@ -6,7 +6,7 @@ const getTalkerById = (req, res) => {
   if (talker) {
     return res.status(200).json(talker);
   }
-  throw new Error('Pessoa palestrante não encontrada');
+  return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 };
 
 module.exports = getTalkerById;
