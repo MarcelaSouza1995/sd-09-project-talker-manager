@@ -1,9 +1,9 @@
-function validEmail(email) {
-  const formatEmail = /\S+@\S+\.\S+/;
-  return formatEmail.test(email);
+function validateEmail(email) {
+  const patternEmail = /\S+@\S+\.\S+/;
+  return patternEmail.test(email);
 }
 
-const validPassword = (password) => {
+const validatePassword = (password) => {
   if (Number(password) && password.length >= 6) return true;
   return false;
 };
@@ -12,7 +12,7 @@ const emailRes = (req, res) => {
   if (!req.body.email || req.body.email === '') {
     return res.status(400).json({ message: 'O campo "email" é obrigatório' });
   }
-  if (!validEmail(req.body.email)) {
+  if (!validateEmail(req.body.email)) {
     return res.status(400).json({ message: 'O "email" deve ter o formato "email@email.com"' });
   }
 };
@@ -21,7 +21,7 @@ const passwordRes = (req, res) => {
   if (!req.body.password || req.body.password === '') {
     return res.status(400).json({ message: 'O campo "password" é obrigatório' });
   }
-  if (!validPassword(req.body.password)) {
+  if (!validatePassword(req.body.password)) {
     return res.status(400).json({ message: 'O "password" deve ter pelo menos 6 caracteres' });
   }
 };

@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs').promises;
-const { loginValidation } = require('./middlewares');
+const { loginValidation, talkerValidation, tokenValidation } = require('./middlewares');
 
 const app = express();
 const dataTalker = './talker.json';
@@ -39,6 +39,19 @@ app.get('/talker/:id', (req, res) => {
 
 app.post('/login', loginValidation, (_req, res) => {
   res.status(200).json(TOKEN);
+});
+
+app.post('/talker', tokenValidation, talkerValidation, (req, res) => {
+  fs.readFile(dataTalker)
+    .then((data) => {
+      const talkers = JSON.parse(data);
+      talkers.push(req.body);
+      console.log(talkers);
+      fs.writeFile(dataTalker, JSON.stringify(talkers))
+        .then(() => {
+          res.status(201).json(req.body);
+        });
+    });
 });
 
 app.listen(PORT, () => {
