@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const talkers = require('./modules');
 
-const { getTalkerList } = talkers;
+const { getTalkerList, getTalkerById } = talkers;
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,4 +21,9 @@ app.listen(PORT, () => {
 
 app.get('/talker', (_req, res) => {
   res.status(200).send(getTalkerList());
+});
+
+app.get('/talker/:id', (req, res) => {
+  const talkerId = req.params.id;
+  res.status(200).send(getTalkerById(talkerId));
 });
