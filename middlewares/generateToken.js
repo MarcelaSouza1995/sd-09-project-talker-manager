@@ -6,7 +6,7 @@ const validateEmail = (email) => {
 };
 
 const validatePassword = (password) => {
-  if (password.length > 6) {
+  if (password.length >= 6) {
     return true;
   }
   return false;
@@ -14,6 +14,7 @@ const validatePassword = (password) => {
 
 const generateToken = (req, res, _next) => {
   const { email, password } = req.body;
+  console.log(email, password);
 
   if (!email) return res.status(400).json({ message: 'O campo "email" é obrigatório' });
   if (!password) return res.status(400).json({ message: 'O campo "password" é obrigatório' });
