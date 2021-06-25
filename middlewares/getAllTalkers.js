@@ -1,9 +1,10 @@
 const fs = require('fs/promises');
 
-const getAllTalkers = async (req, _res, next) => {
+const getAllTalkers = async (req, res, _next) => {
   try {
-    req.data = await fs.readFile('./talker.json', 'utf8');
-    next();
+    const talkers = await fs.readFile('./talker.json', 'utf8');
+
+    return res.status(200).send(JSON.parse(talkers)); 
   } catch (error) {
     console.log(error);
   }

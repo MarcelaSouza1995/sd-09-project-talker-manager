@@ -14,12 +14,13 @@ app.get('/', (_request, response) => {
 });
 
 // Requisito 01
-app.get('/talker', middlewares.getAllTalkers, (req, res) => {
-  res.status(200).send(JSON.parse(req.data)); 
-});
+app.get('/talker', middlewares.getAllTalkers);
 
 // Requisito 02
 app.get('/talker/:id', middlewares.getTalkerById);
+
+// Requisito 03
+app.post('/login', middlewares.postLogin);
 
 app.listen(PORT, () => {
   console.log('Online');
