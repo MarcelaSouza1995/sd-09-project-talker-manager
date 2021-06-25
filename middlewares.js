@@ -59,7 +59,7 @@ const verifyTalkExists = (req, res, next) => {
     return res.status(400).json({ message: response });
   }
   const { rate, watchedAt } = talk;
-  if (!rate || !watchedAt) {
+  if ((!rate && rate !== 0) || !watchedAt) {
     return res.status(400).json({ message: response });
   }
   next();
