@@ -20,9 +20,9 @@ app.get('/talker', rescue(async (req, res) => {
 app.get('/talker/:id', rescue(async (req, res) => {
   const talkers = await talkerFunc.readTalker();
   const { id } = req.params;
-  const talkerById = talkers.find((talker) => talker.id === id);
+  const talkerById = talkers.find((talker) => talker.id === parseInt(id, 10));
   if (!talkerById) return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
-  return res.status(200).json(talkerById);
+  return res.status(HTTP_OK_STATUS).json(talkerById);
 }));
 
 // não remova esse endpoint, e para o avaliador funcionar
