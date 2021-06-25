@@ -1,4 +1,5 @@
 const fs = require('fs');
+
 const file = '/home/tiago/tprojetos/projetosAvaliadores/sd-09-project-talker-manager/talker.json';
 
 const talkerMiddleware = (req, res, next) => {
