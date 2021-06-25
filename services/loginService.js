@@ -25,10 +25,10 @@ function verifyPassword(password) {
 function validateLogin(req) {
   try {
     const { email, password } = req.body;
-    const emailVerifiedMsg = verifyEmail(email);
-    const passwordVerifiedMsg = verifyPassword(password);
-    if (emailVerifiedMsg) throw new Error(emailVerifiedMsg);
-    if (passwordVerifiedMsg) throw new Error(passwordVerifiedMsg);
+    const emailVerifiedError = verifyEmail(email);
+    const passwordVerifiedError = verifyPassword(password);
+    if (emailVerifiedError) throw new Error(emailVerifiedError);
+    if (passwordVerifiedError) throw new Error(passwordVerifiedError);
   } catch (error) {
     return { status: 400, message: error.message };
   }
