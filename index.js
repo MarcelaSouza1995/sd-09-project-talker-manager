@@ -23,10 +23,9 @@ app.get('/talker/:id', async (req, res, next) => {
   try {
     const allTalkers = await getData();
     const desiredTalker = allTalkers.find((talker) => talker.id === Number(id));
-    if (!desiredTalker) return next({ code: 404, message: 'Pessoa palestrante não encontrada' });
     res.status(HTTP_OK_STATUS).json(desiredTalker);
   } catch (error) {
-    next({ code: 404, message: 'Pessoa palestrante não encontrada' });
+    next({ status: 404, message: 'Pessoa palestrante não encontrada' });
   }
 });
 
