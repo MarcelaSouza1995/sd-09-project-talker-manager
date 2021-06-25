@@ -2,6 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const talkerMiddleware = require('./midlewares/talker');
 const talkerIdMiddleware = require('./midlewares/talkerId');
+const loginMiddleware = require('./midlewares/login');
+const missEmailJson = require('./messagesJSON/missEmail.json');
+const wrongEmailJson = require('./messagesJSON/wrongEmail.json');
+const wrongPasswordJson = require('./messagesJSON/wrongPassword.json');
+const missPasswordJson = require('./messagesJSON/missPassword.json');
 
 const app = express();
 app.use(bodyParser.json());
@@ -24,6 +29,24 @@ app.get('/talker/:id', talkerIdMiddleware, (req, res) => {
   } else {
     res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   }
+});
+
+app.post('/login', loginMiddleware, (req, res) => {
+  const { email, password } = req.body;
+  const rgx = /\S+@\S+\.\S+/;
+  if (!email) {
+    res.status(400).send(missEmailJson);
+  }
+  if (!rgx.test(email)) {
+    res.status(400).send(wrongEmailJson);
+  }
+  if (!password) {
+    res.status(400).send(missPasswordJson);
+  }
+  if (password.length < 6) {
+    res.status(400).send(wrongPasswordJson);
+  }
+  res.status(200).json({ token: req.token });
 });
 
 app.listen(PORT, () => {
