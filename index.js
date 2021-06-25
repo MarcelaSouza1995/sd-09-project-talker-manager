@@ -6,6 +6,12 @@ const {
   validateEmail,
   validatePassword,
   generateToken,
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAt,
+  validateRate,
 } = require('./middleware');
 
 const app = express();
@@ -49,7 +55,16 @@ app.post('/login', validateEmail, validatePassword, generateToken);
 
 // requisito 4
 
-app.post('/talker', (req, res) => {
-  const { body } = req;
-  res.status(200).json(body);
-});
+app.post(
+  '/talker',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAt,
+  validateRate,
+  (req, res) => {
+    const { body } = req;
+    res.status(201).json(body);
+  },
+);
