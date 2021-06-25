@@ -20,6 +20,8 @@ app.get('/talker/:id', middlewares.getTalkerById);
 
 app.post('/login', middlewares.login);
 
+app.post('/talker');
+
 app.use((err, _req, res, _next) => {
   res.status(500).send(err);
 });

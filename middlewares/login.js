@@ -1,6 +1,6 @@
 const { v4 } = require('uuid');
-const validateEmail = require('./validateEmail');
-const validatePassword = require('./validatePassword');
+const validateEmail = require('../validations/validateEmail');
+const validatePassword = require('../validations/validatePassword');
 
 const token = v4();
 const validToken = token.split('-', 3).join('');
