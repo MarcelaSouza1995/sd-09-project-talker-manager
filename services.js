@@ -6,7 +6,7 @@ async function getAllTalkers() {
     return JSON.parse(data);
   } catch (error) {
     const errorObj = {
-      code: error.status || 500,
+      status: error.status || 500,
       message: error.message,
     };
     return errorObj;
@@ -16,15 +16,13 @@ async function getAllTalkers() {
 async function getTalkerById(id) {
   try {
     const data = await getAllTalkers();
-    if (data.code) throw new Error(data.message);
     const talkerData = data.find((talker) => talker.id === Number(id));
-    if (!talkerData) throw new Error(talkerData);
-      console.log('leu arquivo', talkerData);
+    if (!talkerData) throw new Error();
       return talkerData;
   } catch (error) {
     const errorObj = {
-      code: error.status || 500,
-      message: error.message,
+      status: 404,
+      message: 'Pessoa palestrante não encontrada',
     };
     return errorObj;
   }

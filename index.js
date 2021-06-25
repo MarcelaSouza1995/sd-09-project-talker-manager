@@ -15,7 +15,7 @@ app.get('/', (_request, response) => {
 
 app.get('/talker', async (req, res, next) => {
   const data = await getAllTalkers();
-  if (data.code) {
+  if (data.status) {
     return next(data);
   }
   return res.status(200).json(data);
@@ -25,13 +25,14 @@ app.get('/talker/:id', async (req, res, next) => {
   console.log('lendo id de palestrantes');
   const talkerId = req.params.id;
   const talker = await getTalkerById(talkerId);
-  if (talker.code) return next(talker);
+  if (talker.status) return next(talker);
   return res.status(200).json(talker);
 });
 
-app.use((err, req, res, _next) => (
-  res.status(404).json({ message: 'Pessoa palestrante não encontrada' })
-));
+app.use((err, req, res, _next) => {
+  console.log('entrou no erro, linha 33', err);
+  return res.status(err.status).json({ message: err.message });
+});
 
 app.listen(PORT, () => {
   console.log('Online');
