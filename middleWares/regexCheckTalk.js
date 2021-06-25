@@ -1,4 +1,4 @@
-const regexChecktalk = ((req, res, next) => {
+const regexCheckTalk = ((req, res, next) => {
   const { talk } = req.body;
 
   const watchedAtRegexCheck = /^(0\d|1\d|2\d|3[0-1])\/(0\d|1[0-2])\/(19|20)\d{2}$/;
@@ -15,4 +15,4 @@ const regexChecktalk = ((req, res, next) => {
   next();
 });
 
-module.exports = regexChecktalk;
+module.exports = regexCheckTalk;

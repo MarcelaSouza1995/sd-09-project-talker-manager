@@ -16,6 +16,26 @@ router.get('/', async (_req, res) => {
   );
 });
 
+// 7 - Crie o endpoint GET /talker/search?q=searchTerm
+// Os seguintes pontos serão avaliados:
+// O endpoint deve retornar um array de palestrantes que contenham em seu nome o termo pesquisado no queryParam da URL. Devendo retornar o status 200.
+router.get('/search', middleWares.validateToken, async (req, res) => {
+  const searchTerm = req.query.q;
+
+  const talkers = await fs.readFile(filePath, 'utf8')
+    .then((data) => JSON.parse(data));
+
+  if (!searchTerm) { return res.status(200).json(talkers); }
+
+  const myTalker = talkers.filter(({ name }) => name.includes(searchTerm));
+
+  if (!myTalker) { return res.status(200).json([]); }
+
+  res.status(200).json(
+    myTalker,
+  );
+});
+
 // Caso não seja encontrada uma pessoa palestrante com base no id da rota, o endpoint deve retornar o status 404.
 router.route('/:id')
   .all(async (req, res, next) => {
@@ -30,6 +50,7 @@ router.route('/:id')
   }
 
   const myIndex = talkers.findIndex(({ id }) => id === myId);
+  req.id = myId;
   req.talkers = talkers;
   req.talkerIndex = myIndex;
   req.myTalker = myTalker;
@@ -57,7 +78,7 @@ router.route('/:id')
   router.post('/',
     middleWares.validateNameAge,
     middleWares.validateTalk,
-    middleWares.regexChecktalk,
+    middleWares.regexCheckTalk,
     async (req, res) => {
       const talkers = await fs.readFile(filePath, 'utf8')
         .then((data) => JSON.parse(data));
@@ -80,7 +101,7 @@ router.route('/:id')
 router.put('/:id',
   middleWares.validateNameAge,
   middleWares.validateTalk,
-  middleWares.regexChecktalk,
+  middleWares.regexCheckTalk,
   async (req, res) => {
   const myId = Number(req.params.id);
 
@@ -93,4 +114,20 @@ router.put('/:id',
     myTalker,
   );
 });
+
+// 6 - Crie o endpoint DELETE /talker/:id
+// A requisição deve ter o token de autenticação nos headers.
+// O endpoint deve deletar uma pessoa palestrante com base no id da rota. Devendo retornar o status 200,
+router.delete('/:id', async (req, res) => {
+  const { talkers } = req;
+
+  const newTalkerList = talkers.filter(({ id }) => id !== req.id);
+
+  await fs.writeFile(filePath, JSON.stringify(newTalkerList));
+
+  res.status(200).json({
+    message: 'Pessoa palestrante deletada com sucesso',
+  });
+});
+
 module.exports = router;
