@@ -15,3 +15,11 @@ app.get('/', (_request, response) => {
 app.listen(PORT, () => {
   console.log('Online');
 });
+
+const talkers = require('./modules');
+
+const { getTalkerList } = talkers;
+
+app.get('/talker', (_req, res) => {
+  res.status(200).send(getTalkerList());
+});
