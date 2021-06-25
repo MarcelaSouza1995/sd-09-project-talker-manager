@@ -29,9 +29,30 @@ const registerNewTalker = async (talker) => {
   return newTalker;
 };
 
+const editTalker = async (id, newInfos) => {
+  const allTalkers = await getAllData();
+  const talkerUpdated = newInfos;
+  talkerUpdated.id = id;
+  const updatedList = allTalkers.reduce((acc, talker) => {
+    if (talker.id === id) return [...acc, talkerUpdated];
+    return [...acc, talker];
+  }, []);
+  // console.log(updateList);
+  await fs.writeFile(talkersPath, JSON.stringify(updatedList));
+  return talkerUpdated;
+};
+
+const deleteTalker = async (id) => {
+  const allTalkers = await getAllData();
+  const newList = allTalkers.filter((talker) => talker.id !== id);
+  await fs.writeFile(talkersPath, JSON.stringify(newList));
+};
+
 module.exports = {
   getAllData,
   getTalkerById,
   generateToken,
   registerNewTalker,
+  editTalker,
+  deleteTalker,
 };

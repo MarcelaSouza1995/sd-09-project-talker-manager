@@ -15,6 +15,8 @@ const {
   getTalkerById,
   generateToken,
   registerNewTalker,
+  editTalker,
+  deleteTalker,
 } = require('./helpers');
 
 const {
@@ -68,11 +70,31 @@ app.post('/talker', [
   },
 ]);
 
-// app.put('/talker/:id', [
-//   (req, res) => {
+app.put('/talker/:id', [
+  verifyToken,
+  verifyName,
+  verifyAge,
+  verifyTalkExists,
+  verifyTalkContent,
+  async (req, res) => {
+    const { params: { id } } = req;
+    const { body } = req;
+    const intId = parseInt(id, 10);
+    const updatedTalker = await editTalker(intId, body);
+    res.status(HTTP_OK_STATUS).json(updatedTalker);
+  },
+]);
 
-//   },
-// ]);
+app.delete('/talker/:id', [
+  verifyToken,
+  async (req, res) => {
+    const { params: { id } } = req;
+    const intId = parseInt(id, 10);
+    await deleteTalker(intId);
+    res.status(HTTP_OK_STATUS)
+      .json({ message: 'Pessoa palestrante deletada com sucesso' });
+  },
+]);
 
 // 
 
