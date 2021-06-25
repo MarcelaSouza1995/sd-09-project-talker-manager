@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const code = require('../httpStatusCodeList');
+// const code = require('../httpStatusCodeList');
 const generateToken = require('../services/generateTolken');
 
 // Solução regex encontarda no Stackoverflow em
