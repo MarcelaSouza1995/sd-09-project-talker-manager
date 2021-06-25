@@ -23,7 +23,7 @@ app.get('/talker/:id', getTalkerById);
 
 app.post('/login', login);
 
-app.use('/talker/:id', error);
+app.use(error);
 
 app.listen(PORT, () => {
   console.log('Online');
