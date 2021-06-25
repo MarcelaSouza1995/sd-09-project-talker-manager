@@ -14,13 +14,17 @@ app.get('/talker/:id', middlewares.talkerId);
 
 app.post('/login', middlewares.postLogin);
 
+app.post('/talker', 
+middlewares.tokenValidator, middlewares.talkerValidator, middlewares.postTalker);
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
 app.use((error, _req, res, _next) => {
-  res.status(error.code).send({ message: error.message });
+  console.log(error);
+  res.status(500).send({ message: error.message });
 });
 
 app.listen(PORT, () => {
