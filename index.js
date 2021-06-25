@@ -15,6 +15,7 @@ app.get('/', (_request, response) => {
 
 app.get('/talker', middlewares.mdwGetAllTalkers);
 app.get('/talker/:id', middlewares.mdwGetOneTalker);
+app.post('/login', [middlewares.mdwLoginVerifier, middlewares.mdwLoginToken]);
 
 app.use(middlewares.mdwGenericError);
 
