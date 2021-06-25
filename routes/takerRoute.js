@@ -1,5 +1,5 @@
 const express = require('express');
-const fs = require('fs/promises');
+const fs = require('fs').promises;
 const middleWares = require('../middleWares/index');
 
 const router = express.Router();
