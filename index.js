@@ -9,13 +9,14 @@ app.use(bodyParser.json());
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
-app.get('/talker', async (_req, res) => {
+app.get('/talker', async (_req, res, next) => {
   try {
     const allTalkers = await getData();
     res.status(HTTP_OK_STATUS).json(allTalkers);
   } catch (error) {
     res.status(HTTP_OK_STATUS).json([]);
   }
+  next();
 });
 
 app.get('/talker/:id', async (req, res, next) => {
