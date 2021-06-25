@@ -1,7 +1,7 @@
-const { verifyLogin } = require('../services/loginService');
+const { validateLogin } = require('../services/loginService');
 
 const mdwLoginVerifier = (req, _res, next) => {
-  const verifierObject = verifyLogin(req);
+  const verifierObject = validateLogin(req);
   if (verifierObject) return next(verifierObject);
   return next();
 };
