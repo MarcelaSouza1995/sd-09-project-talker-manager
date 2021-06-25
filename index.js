@@ -22,7 +22,7 @@ app.get('/talker/:id', talkerIdMiddleware, (req, res) => {
   if (req.filter) {
     res.status(200).send(req.filter);
   } else {
-    res.status(404).json({ "message": "Pessoa palestrante não encontrada" });
+    res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   }
 });
 
