@@ -15,15 +15,16 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-app.listen(PORT, () => {
-  console.log('Online');
-});
-
 app.get('/talker', (_req, res) => {
-  res.status(200).send(getTalkerList());
+  const talkerList = getTalkerList();
+  res.status(200).send(talkerList);
 });
 
 app.get('/talker/:id', (req, res) => {
   const talkerId = req.params.id;
   res.status(200).send(getTalkerById(talkerId));
+});
+
+app.listen(PORT, () => {
+  console.log('Online');
 });
