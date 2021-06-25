@@ -1,4 +1,5 @@
 const fs = require('fs').promises;
+const emailValidator = require('email-validator');
 
 async function getAllTalkers() {
   try {
@@ -28,7 +29,25 @@ async function getTalkerById(id) {
   }
 }
 
+function checkEmailAndPassword(email, password) {
+  const PWRD_LENGTH = 6;
+  if (!email) {
+    return { status: 400, message: 'O campo "email" é obrigatório' };
+  }
+  if (!password) {
+    return { status: 400, message: 'O campo "password" é obrigatório' };
+  }
+  if (emailValidator.validate(email) !== true) {
+    return { status: 400, message: 'O "email" deve ter o formato "email@email.com"' };
+  }
+  if (password.length < PWRD_LENGTH) {
+    return { status: 400, message: 'O "password" deve ter pelo menos 6 caracteres' };
+  }
+  return true;
+}
+
 module.exports = {
   getAllTalkers,
   getTalkerById,
+  checkEmailAndPassword,
 };

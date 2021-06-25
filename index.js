@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { getAllTalkers, getTalkerById } = require('./services');
+const crypto = require('crypto');
+const emailValidator = require('email-validator');
+const { getAllTalkers, getTalkerById, checkEmailAndPassword } = require('./services');
 
 const app = express();
 app.use(bodyParser.json());
@@ -29,8 +31,15 @@ app.get('/talker/:id', async (req, res, next) => {
   return res.status(200).json(talker);
 });
 
+app.post('/login', (req, res, next) => {
+  const { email, password } = req.body;
+  const checkInfo = checkEmailAndPassword(email, password);
+  if (checkInfo.status) return next(checkInfo);
+  const token = crypto.randomBytes(8).toString('hex');
+  res.status(200).json({ token });
+});
+
 app.use((err, req, res, _next) => {
-  console.log('entrou no erro, linha 33', err);
   return res.status(err.status).json({ message: err.message });
 });
 
