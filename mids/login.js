@@ -1,5 +1,8 @@
-// const { v4 } = require('uuid');
+const login = (req, res) => {
+    const { email, password } = req.body;
+    console.log(email);
+    console.log(password);
+    res.status(200).json({ deuBom: true });
+};
 
-// const myuuid = v4();
-// const token = myuuid.slice(0, 13).replace(/-/, 'asd');
-// console.log(token);
+module.exports = login;

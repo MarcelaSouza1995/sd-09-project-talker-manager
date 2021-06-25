@@ -4,6 +4,7 @@ const {
   getAllPersons,
   getTalkerById,
   error,
+  login,
 } = require('./mids');
 
 const app = express();
@@ -19,6 +20,8 @@ app.get('/', (_request, response) => {
 
 app.get('/talker', getAllPersons);
 app.get('/talker/:id', getTalkerById);
+
+app.post('/login', login);
 
 app.use('/talker/:id', error);
 
