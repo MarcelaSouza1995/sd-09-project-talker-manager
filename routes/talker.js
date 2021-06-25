@@ -4,6 +4,7 @@ const talkWatchedAtValidateMiddleware = require('../middleware/dateAndRateValida
 const speakerValidationMiddleware = require('../middleware/speakerValidationMiddleware');
 const talkRateValidateMiddleware = require('../middleware/talkRateValidateMiddleware');
 const tokenValidation = require('../middleware/tokenValidationMiddleware');
+const addNewTalkerMiddleware = require('../middleware/addNewTalkerMiddleware');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.post(
   speakerValidationMiddleware,
   talkWatchedAtValidateMiddleware,
   talkRateValidateMiddleware,
+  addNewTalkerMiddleware,
 );
 
 module.exports = app;

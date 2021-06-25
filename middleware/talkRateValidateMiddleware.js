@@ -11,7 +11,7 @@ const talkRateValidateMiddleware = (req, res, next) => {
   if (talk.rate < 1 && talk.rate < 5) {
     return next({ code: 400, message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
   }
-  res.end();
+  next();
 };
 
 module.exports = talkRateValidateMiddleware;
