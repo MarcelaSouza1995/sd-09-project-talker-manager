@@ -1,11 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+// const fs = require('fs').promises;
+const rescue = require('express-rescue');
+const talkerFunc = require('./talkerFunc');
 
 const app = express();
 app.use(bodyParser.json());
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
+
+// requisito 1
+app.get('/talker', rescue(async (req, res) => {
+  const talker = await talkerFunc.readTalker();
+  if (!talker) return res.status(HTTP_OK_STATUS).json([]);
+  return res.status(HTTP_OK_STATUS).json(talker);
+}));
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
