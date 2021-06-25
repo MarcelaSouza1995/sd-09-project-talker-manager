@@ -88,7 +88,7 @@ const createTalker = async (req, res, _next) => {
     console.log('Arquivo escrito com sucesso!');
   });
 
-  return res.status(201).json({ id: readArchive.length, ...talker });
+  return res.status(created).json({ id: readArchive.length, ...talker });
 };
 
 module.exports = {

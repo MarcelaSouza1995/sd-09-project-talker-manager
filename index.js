@@ -23,7 +23,14 @@ app.get('/talker/:id', getTalkerById);
 
 app.post('/login', login);
 
-app.post('/talker', validationToken, validationTalker, validationFieldTalk, validationDateAndRate, createTalker);
+app.post(
+  '/talker',
+  validationToken,
+  validationTalker,
+  validationFieldTalk,
+  validationDateAndRate,
+  createTalker,
+);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
