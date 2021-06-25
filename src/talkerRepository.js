@@ -5,4 +5,8 @@ function findAll() {
     return JSON.parse(fileContent);
 }
 
-module.exports = { findAll };
+function findById(id) {
+    return findAll().find((talker) => talker.id === +id);
+}
+
+module.exports = { findAll, findById };
