@@ -22,4 +22,3 @@ app.listen(PORT, () => {
 app.get('/talker', (_req, res) => {
   res.status(200).send(getTalkerList());
 });
-
