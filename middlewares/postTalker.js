@@ -1,5 +1,4 @@
 const fs = require('fs').promises;
-// const rescue = require('express-rescue');
 
 const postTalker = async (req, res, _next) => {
   const talkers = await fs.readFile('./talker.json')
