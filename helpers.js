@@ -48,6 +48,14 @@ const deleteTalker = async (id) => {
   await fs.writeFile(talkersPath, JSON.stringify(newList));
 };
 
+const findTalkers = async (query) => {
+  const string = query.toLowerCase();
+  const allTalkers = await getAllData();
+  const result = allTalkers
+    .filter((talker) => talker.name.toLowerCase().includes(string));
+  return result;
+};
+
 module.exports = {
   getAllData,
   getTalkerById,
@@ -55,4 +63,5 @@ module.exports = {
   registerNewTalker,
   editTalker,
   deleteTalker,
+  findTalkers,
 };

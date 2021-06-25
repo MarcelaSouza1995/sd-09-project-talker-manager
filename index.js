@@ -17,6 +17,7 @@ const {
   registerNewTalker,
   editTalker,
   deleteTalker,
+  findTalkers,
 } = require('./helpers');
 
 const {
@@ -35,9 +36,22 @@ app.get('/', (_request, response) => {
 
 // Rotas
 
+app.get('/talker/search', [
+  verifyToken,
+  async (req, res) => {
+    const { query: { q } } = req;
+    if (!q) {
+      const allTalkers = await getAllData();
+      return res.status(HTTP_OK_STATUS).json(allTalkers);
+    }
+    const requestTalkers = await findTalkers(q);
+    res.status(HTTP_OK_STATUS).json(requestTalkers);
+  },
+]);
+
 app.get('/talker', async (_req, res) => {
-  const allData = await getAllData();
-  return res.status(HTTP_OK_STATUS).json(allData);
+  const allTalkers = await getAllData();
+  return res.status(HTTP_OK_STATUS).json(allTalkers);
 });
 
 app.get('/talker/:id', async (req, res) => {
