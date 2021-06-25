@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const data = require('./talker.json');
+const fs = require('fs');
 
+const data = JSON.parse(fs.readFileSync('talker.json', 'utf8'));
 const app = express();
 app.use(bodyParser.json());
 
@@ -19,4 +20,5 @@ app.get('/', (_request, response) => {
 
 app.listen(PORT, () => {
   console.log('Online');
+  // console.log(data);
 });
