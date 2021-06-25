@@ -1,8 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const getAllTalkers = require('./middlewares/getAllTalkers');
-const getTalkerById = require('./middlewares/getTalkerById');
+const middlewares = require('./middlewares');
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,12 +14,14 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-app.get('/talker', getAllTalkers);
+app.get('/talker', middlewares.getAllTalkers);
 
-app.get('/talker/:id', getTalkerById);
+app.get('/talker/:id', middlewares.getTalkerById);
+
+app.post('/login', middlewares.login);
 
 app.use((err, _req, res, _next) => {
-  res.status(500).json(err);
+  res.status(500).send(err);
 });
 
 app.listen(PORT, () => {

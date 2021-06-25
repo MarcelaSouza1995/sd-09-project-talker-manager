@@ -1,5 +1,11 @@
-const getAllSpeakers = require('./getAllTalkers');
+const getAllTalkers = require('./getAllTalkers');
+const getTalkerById = require('./getTalkerById');
+const login = require('./login');
+const validateEmail = require('./validateEmail');
 
 module.exports = {
-  getAllSpeakers,
+  getAllTalkers,
+  getTalkerById,
+  login,
+  validateEmail,
 };
