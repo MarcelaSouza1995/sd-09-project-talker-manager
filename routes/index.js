@@ -1,5 +1,5 @@
 const requisito1 = require('./requisito1');
-// const requisito2 = require('./requisito2');
+const requisito2 = require('./requisito2');
 // const requisito3 = require('./requisito3');
 // const requisito4 = require('./requisito4');
 // const requisito5 = require('./requisito5');
@@ -8,7 +8,7 @@ const requisito1 = require('./requisito1');
 
 module.exports = {
   requisito1,
-  // requisito2,
+  requisito2,
   // requisito3,
   // requisito4,
   // requisito5,
