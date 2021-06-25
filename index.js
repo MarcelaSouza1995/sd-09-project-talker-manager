@@ -17,6 +17,8 @@ app.get('/talker', middlewares.talker);
 
 app.get('/talker/:id', middlewares.talkerID);
 
+app.post('/login', middlewares.login);
+
 app.listen(PORT, () => {
   console.log('Online');
 });
