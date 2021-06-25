@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-// const fs = require('fs/promises');
 const middleware = require('./routes');
 
 const app = express();
@@ -15,6 +14,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/talker', middleware.talkerRouters);
+app.use('/login', middleware.loginRouters);
 
 app.listen(PORT, () => {
   console.log('Online');
