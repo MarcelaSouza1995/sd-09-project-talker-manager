@@ -7,7 +7,7 @@ const regexChecktalk = ((req, res, next) => {
       message: 'O campo "watchedAt" deve ter o formato "dd/mm/aaaa"',
     });
   }
-    const rateRegexCheck = /^[1-5]$/;
+    const rateRegexCheck = /^[1-5]{1}$/;
   if (!rateRegexCheck.test(talk.rate)) {
     return res.status(400).json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
   }
