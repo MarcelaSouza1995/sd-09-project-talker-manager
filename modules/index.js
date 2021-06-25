@@ -1,3 +1,3 @@
-const getTalkerList = require('./getTalker');
+const getTalkerList = require('./getTalkers');
 
 module.exports = { getTalkerList };
