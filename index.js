@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const fs = require('fs/promises');
+const fs = require('fs').promises;
 const generateToken = require('./generateToken');
 const validateEmail = require('./validateEmail');
 const validateDate = require('./validateDate');
