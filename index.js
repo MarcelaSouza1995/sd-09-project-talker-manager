@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
 const { 
   getTalkers,
+  validateEmail,
+  validatePassword,
+  generateToken,
 } = require('./middleware');
 
 const app = express();
@@ -39,3 +42,14 @@ app.get('/talker/:id', rescue(async (req, res) => {
   
   res.status(200).json(selectedTalker);
 }));
+
+// requisito 3
+
+app.post('/login', validateEmail, validatePassword, generateToken);
+
+// requisito 4
+
+app.post('/talker', (req, res) => {
+  const { body } = req;
+  res.status(200).json(body);
+});
