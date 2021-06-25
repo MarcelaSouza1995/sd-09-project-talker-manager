@@ -10,6 +10,7 @@ const readTalkersFile = async () => {
 
 const getTalkers = async () => {
     const talkers = await readTalkersFile();
+    if (!talkers.length) throw new Error('Nenhum palestrante encontrado');
     return talkers;
 };
 
