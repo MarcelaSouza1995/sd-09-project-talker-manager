@@ -10,7 +10,7 @@ const getTalkerById = (req, res, next) => {
     if (!talkerResponse) {
         return next({
             status: 404,
-            message: 'Error: talker not found',
+            message: 'Pessoa palestrante não encontrada',
         });
     }
 
