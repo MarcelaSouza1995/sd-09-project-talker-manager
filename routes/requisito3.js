@@ -48,11 +48,11 @@ const emailAuthentication = () => (req, _res, next) => {
   const { email } = req.body;
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-  if (!email) return next({ message: 'o campo "email" é obrigatório' });
+  if (!email) return next({ message: 'O campo "email" é obrigatório' });
 
   if (!email.match(emailRegex)) {
     return next({
-      message: 'O campo "password" deve ter pelo menos 6 caracteres',
+      message: 'O "email" deve ter o formato "email@email.com"',
     });
   }
 
@@ -62,11 +62,11 @@ const emailAuthentication = () => (req, _res, next) => {
 const passwordAuthentication = () => (req, _res, next) => {
   const { password } = req.body;
 
-  if (!password) return next({ message: 'o campo "email" é obrigatório' });
+  if (!password) return next({ message: 'O campo "password" é obrigatório' });
 
   if (password.length < 6) {
     return next({
-      message: 'O "email" deve ter o formato "email@email.com"',
+      message: 'O "password" deve ter pelo menos 6 caracteres',
     });
   }
 
