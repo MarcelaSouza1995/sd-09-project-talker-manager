@@ -1,14 +1,14 @@
-const fs = require('fs/promises');
+const fetchTalkerApi = require('../service/fetchTalkerApi');
 
 const allTalkersMiddleware = async (req, res, next) => {
   try {
-    const talkers = await fs.readFile('./talker.json');
+    const talkers = await fetchTalkerApi();
     if (talkers === []) {
-      return res.status(200).json(talkers);
+      return res.status(200).json(JSON.parse(talkers));
     }
-    return res.status(200).json(JSON.parse(talkers));
+    return res.status(200).json(talkers);
   } catch (error) {
-    return next({ code: 404, message: 'Erro na requisição' });
+    return next(error);
   }
 };
 

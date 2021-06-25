@@ -3,6 +3,6 @@ const allTalkersMiddleware = require('../middleware/allTalkersMiddleware');
 
 const app = express();
 
-app.get('/', allTalkersMiddleware);
+app.get('/talker', allTalkersMiddleware);
 
 module.exports = app;
