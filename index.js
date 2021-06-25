@@ -17,7 +17,7 @@ app.get('/', (_request, response) => {
 
 app.get('/talker', middlewares.talkerRequest, (_request, response) => response.status(200).send());
 
-app.get('/talker/:id', (request, response, next) => {
+app.get('/talker/:id', (request, response) => {
   fs.readFile('./talker.json')
   .then((files) => {
   const { id } = request.params;
