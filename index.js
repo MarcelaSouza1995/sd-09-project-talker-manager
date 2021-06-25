@@ -14,6 +14,7 @@ app.get('/', (_request, response) => {
 });
 
 app.get('/talker', middlewares.mdwGetAllTalkers);
+app.get('/talker/:id', middlewares.mdwGetOneTalker);
 
 app.use(middlewares.mdwGenericError);
 
