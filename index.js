@@ -14,7 +14,7 @@ app.get('/', (_request, response) => {
 });
 
 app.get('/talker', talkerMiddleware, (req, res) => {
-  res.status(200).send(req.data);
+  res.status(200).send(JSON.parse(req.data));
 });
 
 app.listen(PORT, () => {
