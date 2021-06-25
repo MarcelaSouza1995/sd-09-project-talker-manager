@@ -7,7 +7,7 @@ app.use(bodyParser.json());
 const HTTP_OK_STATUS = 200;
 const HTTP_CREATED_STATUS = 201;
 const HTTP_INTERNAL_SERVER_ERROR_STATUS = 500;
-const HTTP_NOT_FOUND_STATUS = 400;
+const HTTP_NOT_FOUND_STATUS = 404;
 const PORT = '3000';
 
 const {
