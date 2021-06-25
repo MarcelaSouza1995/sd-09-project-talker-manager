@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get(
   '/',
-  rescue(async (req, res) => {
+  rescue(async (_req, res) => {
     const talkersList = await getTalkers();
 
     res.status(200).json(talkersList);
