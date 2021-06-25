@@ -16,7 +16,11 @@ const getTalkers = async () => {
 
 const findTalkerById = async (id) => {
     const talkers = await readTalkersFile();
-    return talkers.find((talker) => talker.id === Number(id));
+    const talker = talkers.find((element) => element.id === Number(id));
+
+    if (!talker) throw new Error('Pessoa palestrante não encontrada');
+
+    return talker;
 };
 
 module.exports = {
