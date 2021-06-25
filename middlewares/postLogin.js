@@ -29,8 +29,8 @@ const postLogin = (req, res, next) => {
   if (passwordStatus) {
     return next(passwordStatus);
   }  
-  const token = crypto.randomBytes(8).toString('hex');
-  return res.status(200).send(token);
+  const tokenObj = { token: crypto.randomBytes(8).toString('hex') };
+  return res.status(200).send(JSON.stringify(tokenObj));
 };
 
 module.exports = postLogin;
