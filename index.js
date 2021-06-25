@@ -25,7 +25,7 @@ app.use(middlewares.validatorTalker);
 
 app.post('/talker', middlewares.talkerPOST);
 
-app.put('./talker/:id', middlewares.talkerPUT);
+app.put('/talker/:id', middlewares.talkerPUT);
 
 app.listen(PORT, () => {
   console.log('Online');

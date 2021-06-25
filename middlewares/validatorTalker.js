@@ -28,27 +28,14 @@ const validatorRate = (rate, res) => {
   }
 };
 
-const rateZERO = (rate, res) => {
-  if (rate === 0) {
-    return res.status(400).json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
-  }
-};
-
 const validatorTalk = (talk, req, res) => {
-  if (!talk) {
+  if ((!talk || !talk.watchedAt) || (Number.isNaN(+talk.rate))) {
     return res.status(400).json({
       message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios' });
   }
 
-  const { talk: { watchedAt, rate } } = req.body;
-
-  if (!watchedAt || !rate) {
-    return res.status(400).json({
-      message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios' });
-  }
-
-  validatorWatchedAt(watchedAt, res);
-  validatorRate(rate, res);
+  validatorWatchedAt(talk.watchedAt, res);
+  validatorRate(talk.rate, res);
 };
 
 const validatorTalker = (req, res, next) => {
