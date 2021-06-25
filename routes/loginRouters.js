@@ -22,18 +22,18 @@ router.get('/', (req, res) => {
 
   const token = generateToken();
 
-  if (!email) return res.status(code.badRequest).json(messageError.emailRequerid);
+  if (!email) return res.status(400).json(messageError.emailRequerid);
 
-  if (!password) return res.status(code.badRequest).json(messageError.passwordRequerid);
+  if (!password) return res.status(400).json(messageError.passwordRequerid);
 
   if (password.length < 6) {
-    return res.status(code.badRequest).json(messageError.passwordInvalid);
+    return res.status(400).json(messageError.passwordInvalid);
   }
   if (!validateEmail(email)) {
-    return res.status(code.badRequest).json(messageError.emailInvalid);
+    return res.status(400).json(messageError.emailInvalid);
   }
 
-  return res.status(code.ok).json({ token });
+  return res.status(200).json({ token });
 });
 
 module.exports = router;
