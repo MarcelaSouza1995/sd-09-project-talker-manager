@@ -1,4 +1,4 @@
-const getData = require('../services/getData');
+const { getData } = require('../services');
 
 const getTalkerById = async (req, res) => {
   const { id } = req.params;
