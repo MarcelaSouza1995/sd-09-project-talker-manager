@@ -10,7 +10,7 @@ const PORT = '3000';
 const {
   requisito1,
   requisito2,
-  // requisito3,
+  requisito3,
   // requisito4,
   // requisito5,
   // requisito6,
@@ -23,6 +23,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/talker', requisito1, requisito2);
+app.use('/login', requisito3);
 
 app.listen(PORT, () => {
   console.log('Online');

@@ -32,7 +32,7 @@ O endpoint deve retornar um array com todas as pessoas palestrantes cadastradas.
 
 const express = require('express');
 const rescue = require('express-rescue');
-const getTalkers = require('../services/talker-utils');
+const { getTalkers } = require('../services');
 
 const router = express.Router();
 

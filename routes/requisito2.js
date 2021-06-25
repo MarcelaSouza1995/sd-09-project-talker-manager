@@ -17,7 +17,7 @@ Caso não seja encontrada uma pessoa palestrante com base no id da rota, o endpo
 
 const express = require('express');
 const rescue = require('express-rescue');
-const getTalkers = require('../services/talker-utils');
+const { getTalkers } = require('../services');
 
 const router = express.Router();
 
