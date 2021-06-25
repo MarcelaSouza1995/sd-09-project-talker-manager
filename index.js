@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const emailValidator = require('email-validator');
 const { getAllTalkers, getTalkerById, checkEmailAndPassword } = require('./services');
 
 const app = express();
@@ -39,9 +38,7 @@ app.post('/login', (req, res, next) => {
   res.status(200).json({ token });
 });
 
-app.use((err, req, res, _next) => {
-  return res.status(err.status).json({ message: err.message });
-});
+app.use((err, req, res, _next) => res.status(err.status).json({ message: err.message }));
 
 app.listen(PORT, () => {
   console.log('Online');
