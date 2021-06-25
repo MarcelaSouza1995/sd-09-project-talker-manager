@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const talkerMiddleware = require('./midlewares/talker');
+const talkerIdMiddleware = require('./midlewares/talkerId');
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,6 +16,14 @@ app.get('/', (_request, response) => {
 
 app.get('/talker', talkerMiddleware, (req, res) => {
   res.status(200).send(JSON.parse(req.data));
+});
+
+app.get('/talker/:id', talkerIdMiddleware, (req, res) => {
+  if (req.filter) {
+    res.status(200).send(req.filter);
+  } else {
+    res.status(404).json({ "message": "Pessoa palestrante não encontrada" });
+  }
 });
 
 app.listen(PORT, () => {
