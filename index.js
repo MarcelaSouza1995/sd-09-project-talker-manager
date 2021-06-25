@@ -1,3 +1,4 @@
+// Tiago Yoneda <xyonedax@gmail.com>
 const express = require('express');
 const bodyParser = require('body-parser');
 
