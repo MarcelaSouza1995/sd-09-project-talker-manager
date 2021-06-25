@@ -6,6 +6,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const HTTP_OK_STATUS = 200;
+const HTTP_NOT_FOUND_STATUS = 404;
 const PORT = '3000';
 
 // não remova esse endpoint, e para o avaliador funcionar
@@ -22,10 +23,9 @@ app.listen(PORT, () => {
 app.get('/talker', async (_request, response) => {
   try {
     const talkers = await getTalkers();
-    if (!talkers.length) response.status(HTTP_OK_STATUS).json([]);
     response.status(HTTP_OK_STATUS).json(talkers);
   } catch (err) {
-    console.log(err);
+    response.status(HTTP_OK_STATUS).json([]);
   }
 });
 
@@ -35,6 +35,6 @@ app.get('/talker/:id', async (request, response) => {
     const talker = await findTalkerById(id);
     response.status(HTTP_OK_STATUS).json(talker);
   } catch (err) {
-    console.log(err);
+    response.status(HTTP_NOT_FOUND_STATUS).json({ message: err.message });
   }
 });
