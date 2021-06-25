@@ -1,4 +1,4 @@
-const fs = require('fs/promises');
+const fs = require('fs').promises;
 const rescue = require('express-rescue');
 
 const getAllTalkers = rescue(async (req, res) => {
