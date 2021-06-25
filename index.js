@@ -10,18 +10,25 @@ app.use(bodyParser.json());
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
+// não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
 app.get('/talker', (_req, res) => {
   const talkerList = getTalkerList();
-  res.status(200).send(talkerList);
+  return res.status(200).send(talkerList);
 });
 
-app.get('/talker/:id', (req, res) => {
+app.get('/talker/:id', async (req, res) => {
   const talkerId = req.params.id;
-  res.status(200).send(getTalkerById(talkerId));
+  const talker = await getTalkerById(talkerId);
+
+  if (!talker) {
+    return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  }
+
+  return res.status(200).json(talker);
 });
 
 app.listen(PORT, () => {
