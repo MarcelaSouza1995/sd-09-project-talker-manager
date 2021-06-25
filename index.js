@@ -18,6 +18,9 @@ app.get('/talker', middlewares.getAllTalkers, (req, res) => {
   res.status(200).send(JSON.parse(req.data)); 
 });
 
+// Requisito 02
+app.get('/talker/:id', middlewares.getTalkerById);
+
 app.listen(PORT, () => {
   console.log('Online');
 });
