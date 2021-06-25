@@ -20,8 +20,18 @@ const getTalkerById = async (id) => {
 const generateToken = () => crypto.randomBytes(16).toString('base64')
   .replace(/[^A-Za-z0-9]/g, '').substring(0, 16);
 
+const registerNewTalker = async (talker) => {
+  const newTalker = talker;
+  const allTalkers = await getAllData();
+  newTalker.id = allTalkers[allTalkers.length - 1].id + 1;
+  const newList = [...allTalkers, newTalker];
+  await fs.writeFile(talkersPath, JSON.stringify(newList));
+  return newTalker;
+};
+
 module.exports = {
   getAllData,
   getTalkerById,
   generateToken,
+  registerNewTalker,
 };
