@@ -13,11 +13,19 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-app.get('/talker', middlewares.talker);
+app.get('/talker', middlewares.talkers);
 
 app.get('/talker/:id', middlewares.talkerID);
 
 app.post('/login', middlewares.login);
+
+app.use(middlewares.validatorToken);
+
+app.use(middlewares.validatorTalker);
+
+app.post('/talker', middlewares.talkerPOST);
+
+app.put('./talker/:id', middlewares.talkerPUT);
 
 app.listen(PORT, () => {
   console.log('Online');
