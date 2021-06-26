@@ -65,6 +65,7 @@ async (request, response) => {
   response.status(201).json({ ...talkerGenerator });  
 });
 
+// requisito 5
 app.put('/talker/:id',
 tokenValidator,
 nameValidator,
@@ -86,6 +87,15 @@ async (request, response) => {
   console.log(brandNewTalkers);
   await fs.writeFile('./talker.json', JSON.stringify(brandNewTalkers));
   response.status(200).json(editedTalker);
+});
+
+// requisito 6
+app.delete('/talker/:id', tokenValidator, async (request, response) => {
+  const { id } = request.params;
+  const talkers = await getTalker();
+  const deleteTalker = talkers.filter((element) => element.id !== +id);
+  await fs.writeFile('./talker.json', JSON.stringify(deleteTalker));
+  response.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });
 });
 
 app.listen(PORT, () => {
