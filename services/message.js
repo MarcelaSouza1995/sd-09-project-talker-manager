@@ -1,4 +1,4 @@
-const errorMessage = {
+const message = {
   talkerNotFound: 'Pessoa palestrante não encontrada',
   emptyEmail: 'O campo "email" é obrigatório',
   invalidEmail: 'O "email" deve ter o formato "email@email.com"',
@@ -13,6 +13,7 @@ const errorMessage = {
   invalidWatchedAt: 'O campo "watchedAt" deve ter o formato "dd/mm/aaaa"',
   invalidRate: 'O campo "rate" deve ser um inteiro de 1 à 5',
   emptyTalk: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios',
+  deleteTalker: 'Pessoa palestrante deletada com sucesso',
 };
 
-module.exports = errorMessage;
+module.exports = message;
