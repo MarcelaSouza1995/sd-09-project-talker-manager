@@ -48,7 +48,14 @@ app.post('/talker',
   addNewTalker);
 
 // Requisito 05
-app.put('/talker/:id', editTalkerById);
+app.put('/talker/:id',
+  tokenValidation,
+  nameValidation,
+  ageValidation,
+  talkValidation,
+  watchedAtValidation,
+  rateValidation,
+  editTalkerById);
 
 app.listen(PORT, () => {
   console.log('Online');
