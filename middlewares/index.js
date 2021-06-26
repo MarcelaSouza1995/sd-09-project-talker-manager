@@ -1,14 +1,14 @@
 const getAllTalkers = require('./getAllTalkers');
 const getTalkerById = require('./getTalkerById');
-const validadeEmail = require('./validateEmail');
-const validatePassword = require('./validatePassword');
+const checkEmail = require('./checkEmail');
+const checkPassword = require('./checkPassword');
 const login = require('./login');
-const validateToken = require('./validateToken');
-const validateName = require('./validateName');
-const validateAge = require('./validateAge');
-const validateTalk = require('./validateTalk');
-const validateWatchedAt = require('./validateWatchedAt');
-const validateRate = require('./validateRate');
+const checkToken = require('./checkToken');
+const checkName = require('./checkName');
+const checkAge = require('./checkAge');
+const checkTalk = require('./checkTalk');
+const checkWatchedAt = require('./checkWatchedAt');
+const checkRate = require('./checkRate');
 const createTalker = require('./createTalker');
 // const editTalker = require('./editTalker');
 // const deleteTalker = require('./deleteTalker');
@@ -17,14 +17,14 @@ const createTalker = require('./createTalker');
 module.exports = {
   getAllTalkers,
   getTalkerById,
-  validadeEmail,
-  validatePassword,
+  checkEmail,
+  checkPassword,
   login,
-  validateToken,
-  validateName,
-  validateAge,
-  validateTalk,
-  validateWatchedAt,
-  validateRate,
+  checkToken,
+  checkName,
+  checkAge,
+  checkTalk,
+  checkWatchedAt,
+  checkRate,
   createTalker,
  };
