@@ -1,8 +1,8 @@
 const express = require('express');
 const { checkEmail, checkPassword, login } = require('../middlewares');
 
-const app = express.Router();
+const route = express.Router();
 
-app.post('/', checkEmail, checkPassword, login);
+route.post('/', checkEmail, checkPassword, login);
 
-module.exports = app;
+module.exports = route;
