@@ -102,3 +102,18 @@ app.put(
     res.status(200).json(allTalkers[id - 1]);
   }),
 );
+
+// requisito 6
+
+app.delete(
+  '/talker/:id',
+  validateToken,
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    const allTalkers = await getTalkers();
+
+    const talkesLeft = allTalkers.map((talker) => talker.id !== id);
+    await fs.writeFile('talker.json', JSON.stringify(talkesLeft));
+    res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });
+  }),
+);
