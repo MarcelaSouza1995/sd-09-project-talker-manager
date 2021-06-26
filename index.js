@@ -6,6 +6,7 @@ const {
   postLogin,
   addNewTalker,
   editTalkerById,
+  deleteTalkerById,
 } = require('./middlewares');
 const {
   tokenValidation,
@@ -56,6 +57,11 @@ app.put('/talker/:id',
   watchedAtValidation,
   rateValidation,
   editTalkerById);
+
+// Requisito 06
+app.delete('/talker/:id',
+  tokenValidation,
+  deleteTalkerById);
 
 app.listen(PORT, () => {
   console.log('Online');
