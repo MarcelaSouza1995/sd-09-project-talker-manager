@@ -27,8 +27,8 @@ const passwordRes = (req, res) => {
 };
 
 const loginValidation = (req, res, next) => {
-  emailRes(req, res);
-  passwordRes(req, res);
+  if (emailRes(req, res)) return;
+  if (passwordRes(req, res)) return;
 
   next();
 };

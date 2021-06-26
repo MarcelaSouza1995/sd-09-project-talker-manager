@@ -1,3 +1,8 @@
+const validateData = (date) => {
+  const patternData = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;
+  return patternData.test(date);
+};
+
 const nameRes = (req, res) => {
   if (!req.body.name || req.body.name === '') {
     return res.status(400).json({ message: 'O campo "name" é obrigatório' });
@@ -16,11 +21,6 @@ const ageRes = (req, res) => {
   }
 };
 
-const validateData = (date) => {
-  const patternData = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;
-  return patternData.test(date);
-};
-
 const talkRes = (req, res) => {
   if (!req.body.talk || !req.body.talk.watchedAt || !req.body.talk.rate) {
     return res.status(400).json(
@@ -34,15 +34,16 @@ const talkDataRes = (req, res) => {
     return res.status(400).json({ message: 'O campo "watchedAt" deve ter o formato "dd/mm/aaaa"' });
   }
   if (Number(req.body.talk.rate) < 1 || Number(req.body.talk.rate) > 5) {
-    return res.status(400).json({ message: 'O campo "rate" deve ser um inteiro de 1 a 5' });
+    return res.status(400).json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
   }
 };
 
 const talkerValidation = (req, res, next) => {
-  nameRes(req, res);
-  ageRes(req, res);
-  talkRes(req, res);
-  talkDataRes(req, res);
+  if (nameRes(req, res)) return;
+  if (ageRes(req, res)) return;
+  if (talkRes(req, res)) return;
+  if (talkDataRes(req, res)) return;
+
   next();
 };
 
