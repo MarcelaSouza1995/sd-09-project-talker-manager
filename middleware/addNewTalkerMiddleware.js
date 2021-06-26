@@ -23,10 +23,10 @@ const addNewTalkerMiddleware = async (req, res, next) => {
     const talkers = await fetchTalkerApi();
     const speaker = await createNewSpeaker(body, talkers);
     await fs.writeFile('./talker.json', JSON.stringify([...talkers, speaker]));
+    res.status(201).json(speaker);
   } catch (error) {
     return next({ code: 500, message: 'Deu ruim' });
   }
-  res.status(201).json('Novo talker adicionado');
 };
 
 module.exports = addNewTalkerMiddleware;
