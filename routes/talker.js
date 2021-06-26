@@ -1,21 +1,32 @@
 const express = require('express');
 
 const router = express.Router();
+const HTTP_OK_STATUS = 200;
 
-const readFile = require('../service/readFile');
+const { readFile, addNewTalker } = require('../service');
+const { validateToken, validateName, validateAge, validateTalk } = require('../util');
 
 router.get('/:id', async (request, response) => {
   const { id } = request.params;
   const allTalkers = await readFile();
   const talker = allTalkers.find((item) => item.id === +(id));
   if (!talker) response.status(404).json({ message: 'Pessoa palestrante não encontrada' });
-  response.status(200).json(talker);
+  response.status(HTTP_OK_STATUS).json(talker);
 });
 
 router.get('/', async (_request, response) => {
   const allTalkers = await readFile();
-  if (allTalkers.length === 0) response.status(200).json([]);
-  response.status(200).json(allTalkers);
+  if (allTalkers.length === 0) response.status(HTTP_OK_STATUS).json([]);
+  response.status(HTTP_OK_STATUS).json(allTalkers);
 });
+
+router.post(
+  '/',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  addNewTalker,
+);
 
 module.exports = router;
