@@ -37,16 +37,16 @@ app.post('/login', validate.validateEmailAndPassword, (req, res, _next) => {
 });
 
 app.post('/talker',
+  validate.validateToken,
   validate.validateAge,
   validate.validateName,
   validate.validateTalk,
   validate.validateWatchedAtAndRate,
-  validate.validateToken,
   async (req, res, next) => {
     const talker = req.body;
     const newTalker = await saveNewTalker(talker);
     if (newTalker.status) return next(newTalker);
-    return res.status(201).json(talker);
+    return res.status(201).json(newTalker);
 });
 
 app.use((err, _req, res, _next) => res.status(err.status).json({ message: err.message }));
