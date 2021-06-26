@@ -1,5 +1,5 @@
 const validatorWatchedAtAndRate = (req, res, next) => {
-  const { watchedAt, rate } = req.body.talk
+  const { watchedAt, rate } = req.body.talk;
   const regexDate = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
 
   if (!regexDate.test(watchedAt)) {
