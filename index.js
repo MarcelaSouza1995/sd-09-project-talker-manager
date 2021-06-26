@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { getAllTalkers, getTalkerById, login } = require('./middlewares');
+const { getAllTalkers, getTalkerById, validadeEmail, validatePassword, login, validateToken,
+  validateName, validateAge, validateTalk, validateWatchedAt, validateRate, createTalker,
+} = require('./middlewares');
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,4 +23,15 @@ app.get('/talker', getAllTalkers);
 
 app.get('/talker/:id', getTalkerById);
 
+app.post('/login', validadeEmail);
+app.post('/login', validatePassword);
 app.post('/login', login);
+
+app.use(validateToken);
+
+app.post('/talker', validateName);
+app.post('/talker', validateAge);
+app.post('/talker', validateTalk);
+app.post('/talker', validateWatchedAt);
+app.post('/talker', validateRate);
+app.post('/talker', createTalker);

@@ -1,4 +1,5 @@
 const getData = require('./getData');
-const errorMessages = require('./errorMessages');
+const errorMessage = require('./errorMessage');
+const generateToken = require('./generateToken');
 
-module.exports = { getData, errorMessages };
+module.exports = { getData, errorMessage, generateToken };
