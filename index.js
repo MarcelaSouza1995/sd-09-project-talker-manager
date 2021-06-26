@@ -1,6 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const middlewares = require('./middlewares/index');
+const {
+  getAllTalkers,
+  getTalkerById,
+  postLogin,
+  addNewTalker,
+  editTalkerById,
+} = require('./middlewares');
+const {
+  tokenValidation,
+  emailValidation,
+  passwordValidation,
+  nameValidation,
+  ageValidation,
+  talkValidation,
+  watchedAtValidation,
+  rateValidation } = require('./services');
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,16 +29,26 @@ app.get('/', (_request, response) => {
 });
 
 // Requisito 01
-app.get('/talker', middlewares.getAllTalkers);
+app.get('/talker', getAllTalkers);
 
 // Requisito 02
-app.get('/talker/:id', middlewares.getTalkerById);
+app.get('/talker/:id', getTalkerById);
 
 // Requisito 03
-app.post('/login', middlewares.postLogin);
+app.post('/login', emailValidation, passwordValidation, postLogin);
 
 // Requisito 04
-app.post('/talker', middlewares.addNewTalker);
+app.post('/talker',
+  tokenValidation,
+  nameValidation,
+  ageValidation,
+  talkValidation,
+  watchedAtValidation,
+  rateValidation,
+  addNewTalker);
+
+// Requisito 05
+app.put('/talker/:id', editTalkerById);
 
 app.listen(PORT, () => {
   console.log('Online');
