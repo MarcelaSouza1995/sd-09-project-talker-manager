@@ -41,52 +41,24 @@ Caso a senha não tenha pelo menos 6 caracteres retorne um código de status 400
 
 const express = require('express');
 
-const router = express.Router();
 const { getToken } = require('../services');
 
-const emailAuthentication = () => (req, _res, next) => {
-  const { email } = req.body;
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const router = express.Router();
 
-  if (!email) return next({ message: 'O campo "email" é obrigatório' });
-
-  if (!email.match(emailRegex)) {
-    return next({
-      message: 'O "email" deve ter o formato "email@email.com"',
-    });
-  }
-
-  next();
-};
-
-const passwordAuthentication = () => (req, _res, next) => {
-  const { password } = req.body;
-
-  if (!password) return next({ message: 'O campo "password" é obrigatório' });
-
-  if (password.length < 6) {
-    return next({
-      message: 'O "password" deve ter pelo menos 6 caracteres',
-    });
-  }
-
-  next();
-};
-
-const handleErrorMiddleware = () => (err, _req, res, _next) => {
-  res.status(400).json({ message: err.message });
-};
-
-const generateToken = () => (_req, res) => {
-  const token = getToken();
-
-  res.status(200).json({ token });
-};
+const {
+  emailAuthentication,
+  passwordAuthentication,
+  handleErrorMiddleware,
+} = require('../middlewares');
 
 router.post('/', [
   emailAuthentication(),
   passwordAuthentication(),
-  generateToken(),
+  (_req, res) => {
+    const token = getToken();
+  
+    res.status(200).json({ token });
+  },
   handleErrorMiddleware(),
 ]);
 
