@@ -16,7 +16,7 @@ app.get('/talker', (request, response) => {
   fs.readFile('./talker.json', 'utf-8')
   .then((fileTalker) => JSON.parse(fileTalker))
     .then((res) => response.status(HTTP_OK_STATUS).json(res))
-      .catch((error) => response.status(HTTP_OK_STATUS).json([])); 
+      .catch(() => response.status(HTTP_OK_STATUS).json([])); 
 });
 
 app.listen(PORT, () => {
