@@ -7,7 +7,7 @@ const tokenValidation = (req, res, next) => {
   if (req.headers.authorization !== TOKEN) {
     return res.status(401).json({ message: 'Token inválido' });
   }
-
+  
   next();
 };
 

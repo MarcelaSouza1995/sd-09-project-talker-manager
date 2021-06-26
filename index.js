@@ -76,6 +76,23 @@ app.put('/talker/:id', tokenValidation, talkerValidation, (req, res) => {
     });
 });
 
+app.delete('/talker/:id', tokenValidation, (req, res) => {
+  fs.readFile(dataTalker)
+  .then((data) => {
+    const talkers = JSON.parse(data);
+    let indexDelete = -1;
+    talkers.forEach((talker, index) => {
+      if (talker.id === Number(req.params.id)) indexDelete = index; 
+    });
+    if (indexDelete === -1) {
+      return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+    }
+    talkers.splice(indexDelete, 1);
+    fs.writeFile(dataTalker, JSON.stringify(talkers))
+      .then(() => res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' }));
+  });
+});
+
 app.listen(PORT, () => {
   console.log('Online');
 });
