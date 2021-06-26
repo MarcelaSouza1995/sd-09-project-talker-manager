@@ -6,7 +6,7 @@ const createTalker = async (req, res) => {
   const data = await getData();
   const talker = { name, age, id: data.length + 1, talk };
   await fs.writeFile('./talker.json', JSON.stringify([...data, talker]));
-  res.status(201).json(talker);
+  return res.status(201).json(talker);
 };
 
 module.exports = createTalker;
