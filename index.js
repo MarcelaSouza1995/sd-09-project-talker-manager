@@ -15,3 +15,9 @@ app.get('/', (_request, response) => {
 app.listen(PORT, () => {
   console.log('Online');
 });
+
+// req 1:
+const routerMiddleware = require('./routerMiddleware');
+
+/* Todas as rotas com /simpsons/<alguma-coisa> entram aqui e vão para o roteador. */
+app.use('/talker', routerMiddleware);
