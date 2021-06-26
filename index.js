@@ -20,6 +20,21 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
+app.get('/talker/search', tokenValidation, (req, res) => {
+  fs.readFile(dataTalker)
+  .then((data) => {
+    const talkers = JSON.parse(data);
+    if (!req.query.q || req.query.q === '') {
+      return res.status(200).json(talkers);
+    }
+    const searchTalkers = talkers.reduce((newTalkers, currentTalker) => {
+      if (currentTalker.name.includes(req.query.q)) newTalkers.push(currentTalker);
+      return newTalkers;
+    }, []);
+    res.status(200).json(searchTalkers);
+  });
+});
+
 app.get('/talker', (_req, res) => {
   fs.readFile(dataTalker)
     .then((data) => {
