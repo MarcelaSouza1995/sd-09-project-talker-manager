@@ -93,7 +93,7 @@ const { getTalkers, setTalkers } = require('../services');
 
 const router = express.Router();
 
-const tokenAuthentication = () => (req, res, next) => {
+const tokenAuthentication = () => (req, _res, next) => {
   const { authorization } = req.headers;
   const errorType = 401;
 
@@ -106,7 +106,7 @@ const tokenAuthentication = () => (req, res, next) => {
   next();
 };
 
-const nameAuthentication = () => (req, res, next) => {
+const nameAuthentication = () => (req, _res, next) => {
   const { name } = req.body;
   const errorType = 400;
 
@@ -124,7 +124,7 @@ const nameAuthentication = () => (req, res, next) => {
   next();
 };
 
-const ageAuthentication = () => (req, res, next) => {
+const ageAuthentication = () => (req, _res, next) => {
   const { age } = req.body;
   const errorType = 400;
 
@@ -142,7 +142,7 @@ const ageAuthentication = () => (req, res, next) => {
   next();
 };
 
-const talkAuthentication = () => (req, res, next) => {
+const talkAuthentication = () => (req, _res, next) => {
   const { talk } = req.body;
   const errorType = 400;
 
@@ -157,7 +157,7 @@ const talkAuthentication = () => (req, res, next) => {
   next();
 };
 
-const watchedAtAuthentication = () => (req, res, next) => {
+const watchedAtAuthentication = () => (req, _res, next) => {
   const { talk: { watchedAt } } = req.body;
   const errorType = 400;
   const dateFormatRegex = /^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{4}$/;
@@ -178,10 +178,10 @@ const watchedAtAuthentication = () => (req, res, next) => {
   next();
 };
 
-const rateAuthentication = () => (req, res, next) => {
+const rateAuthentication = () => (req, _res, next) => {
   const { talk: { rate } } = req.body;
   const errorType = 400;
-  if (!rate) {
+  if (rate === undefined) {
     return next({
       errorType,
       message:
