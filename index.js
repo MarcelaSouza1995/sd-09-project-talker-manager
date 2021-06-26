@@ -74,3 +74,31 @@ app.post(
     res.status(201).json(body);
   }),
 );
+
+// requisito 5
+
+app.put(
+  '/talker/:id',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateRate,
+  validateWatchedAt,
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    const { body } = req;
+    const allTalkers = await getTalkers();
+
+    allTalkers.forEach((talker, index) => {
+      if (talker.id === Number(id)) {
+        allTalkers[index].name = body.name;
+        allTalkers[index].age = body.age;
+        allTalkers[index].talk = body.talk;
+      }
+    });
+
+    await fs.writeFile('talker.json', JSON.stringify(allTalkers));
+    res.status(200).json(allTalkers[id - 1]);
+  }),
+);
