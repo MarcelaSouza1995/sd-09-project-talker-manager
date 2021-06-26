@@ -1,10 +1,12 @@
 const express = require('express');
 const { getAllTalkers, getTalkerById, checkToken, checkName, checkAge, checkTalk,
-  checkWatchedAt, checkRate, createTalker, editTalker, deleteTalker } = require('../middlewares');
+  checkWatchedAt, checkRate, createTalker, editTalker, deleteTalker, searchTalker,
+} = require('../middlewares');
 
 const route = express.Router();
 
 route.get('/', getAllTalkers);
+route.get('/search', checkToken, searchTalker);
 route.get('/:id', getTalkerById);
 route.use(checkToken);
 route.post('/', checkName, checkAge, checkTalk, checkWatchedAt, checkRate, createTalker);
