@@ -24,7 +24,10 @@ const middlewareLogin = (req, res) => {
     return res.status(400).json({ message: 'O "password" deve ter pelo menos 6 caracteres' });
   }
 
-  return res.status(200).json({ token: generateToken() });
+  const token = generateToken();
+  req.headers.authorization = token;
+
+  return res.status(200).json({ token });
 };
 
 module.exports = middlewareLogin;
