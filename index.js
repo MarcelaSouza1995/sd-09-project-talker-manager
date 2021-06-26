@@ -1,6 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { dataTalker } = require('./src/middlewares/talker');
+const {
+  dataTalker,
+  dataTalkerId,
+
+} = require('./src/middlewares/talker');
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,8 +22,11 @@ app.get('/talker', dataTalker, (req, res) => {
   res.status(200).send(JSON.parse(req.data));
 });
 
-app.get('/talker/:id', dataTalker, (req, res) => {
-  res.status(200).send(JSON.parse(req.data));
+app.get('/talker/:id', dataTalkerId, (req, res) => {
+  if (!req.talkerById) {
+    return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  }
+  return res.status(200).send(req.talkerById);
 });
 
 app.listen(PORT, () => {
