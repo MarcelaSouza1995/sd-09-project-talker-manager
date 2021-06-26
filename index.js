@@ -44,10 +44,7 @@ app.get('/talker/:id', async (request, response) => {
 });
 
 // requisito 3
-app.post('/login', (request, response) => {
-  const { body: { email, password } } = request;
-  emailValidator(email, response);
-  passwordValidator(password, response);
+app.post('/login', emailValidator, passwordValidator, (_request, response) => {
   const token = generateToken();
   response.status(HTTP_OK_STATUS).json({ token });
   });
@@ -66,6 +63,29 @@ async (request, response) => {
   talkers.push(talkerGenerator);
   await fs.writeFile('./talker.json', JSON.stringify(talkers));
   response.status(201).json({ ...talkerGenerator });  
+});
+
+app.put('/talker/:id',
+tokenValidator,
+nameValidator,
+ageValidator,
+talkValidator,
+watchedAtValidator,
+rateValidator,
+async (request, response) => {
+  const { id } = request.params;
+  const { body } = request;
+  const talkers = await getTalker();
+  const findTalker = talkers.find((element) => element.id === +(id));
+  const notTheTalker = talkers.filter((element) => element.id !== +(id));
+  const editedTalker = {
+    ...body,
+    id: findTalker.id,
+  };
+  const brandNewTalkers = [...notTheTalker, editedTalker];
+  console.log(brandNewTalkers);
+  await fs.writeFile('./talker.json', JSON.stringify(brandNewTalkers));
+  response.status(200).json(editedTalker);
 });
 
 app.listen(PORT, () => {

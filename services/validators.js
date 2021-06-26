@@ -1,4 +1,5 @@
-const emailValidator = (email, response) => {
+const emailValidator = (request, response, next) => {
+  const { body: { email } } = request;
   const emailRegex = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
   const emailTester = emailRegex.test(email);
   if (!email || email.length === 0) {
@@ -7,15 +8,19 @@ const emailValidator = (email, response) => {
   if (!emailTester) {
     return response.status(400).json({ message: 'O "email" deve ter o formato "email@email.com"' });
   }
+  next();
 };
 
-const passwordValidator = (password, response) => {
+const passwordValidator = (request, response, next) => {
+  const { body: { password } } = request;
+
   if (!password || password.length === 0) {
     return response.status(400).json({ message: 'O campo "password" é obrigatório' });
   }
   if (password.length < 6) {
     return response.status(400).json({ message: 'O "password" deve ter pelo menos 6 caracteres' });
   }
+  next();
 };
 
 const tokenValidator = (request, response, next) => {
@@ -69,20 +74,20 @@ const watchedAtValidator = (request, response, next) => {
 
 const rateValidator = (request, response, next) => {
   const { talk: { rate } } = request.body;
+  if (rate < 1 || rate > 5) {
+    return response.status(400).json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
+  }
   if (!rate) {
     return response.status(400).json({
       message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios',
     });
-  }  
-  if (rate < 1 || rate > 5) {
-    return response.status(400).json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
   }
   next();
 };
 
 const talkValidator = (request, response, next) => {
   const { talk } = request.body;
-  if (!talk) {
+  if (((!talk || !talk.watchedAt) || (!talk.rate && talk.rate !== 0))) {
     return response.status(400).json({
       message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios',
     });
