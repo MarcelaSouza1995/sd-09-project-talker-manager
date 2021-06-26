@@ -46,8 +46,30 @@ async function saveNewTalker(talker) {
   }
 }
 
+async function editTalker(talkerId, talkerInfo) {
+  const { name, age, talk } = talkerInfo;
+  try {
+    const talkerData = await getAllTalkers();
+    const newTalkerData = talkerData.map((person) => {
+      if (person.id === talkerId) {
+        person.name = name;
+        person.age = age;
+        person.talk = talk;
+      }
+    return person;
+    });
+    const editedTalker = talkerData.find((person) => person.id === talkerId);
+    await fs.writeFile('./talker.json', JSON.stringify(newTalkerData));
+    return editedTalker;
+  } catch (error) {
+    const errorObj = { status: 500, message: 'Erro ao editar palestrante' };
+    return errorObj;
+  }
+}
+
 module.exports = {
   getAllTalkers,
   getTalkerById,
   saveNewTalker,
+  editTalker,
 };
