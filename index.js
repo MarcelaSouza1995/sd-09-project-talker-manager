@@ -3,6 +3,13 @@ const bodyParser = require('body-parser');
 const talkerMiddleware = require('./midlewares/talker');
 const talkerIdMiddleware = require('./midlewares/talkerId');
 const loginMiddleware = require('./midlewares/login');
+const tokenValidation = require('./midlewares/tokenValidation');
+const rateValidation = require('./midlewares/rateValidation');
+const ageValidation = require('./midlewares/ageValidation');
+const nameValidation = require('./midlewares/nameValidation');
+const talkValidation = require('./midlewares/talkValidation');
+const watchedAtValidation = require('./midlewares/watchedAtValidation');
+const addPartcipant = require('./midlewares/addPartcipant');
 const missEmailJson = require('./messagesJSON/missEmail.json');
 const wrongEmailJson = require('./messagesJSON/wrongEmail.json');
 const wrongPasswordJson = require('./messagesJSON/wrongPassword.json');
@@ -48,6 +55,15 @@ app.post('/login', loginMiddleware, (req, res) => {
   }
   res.status(200).json({ token: req.token });
 });
+
+app.post('/talker', 
+tokenValidation,
+rateValidation,
+nameValidation,
+talkValidation,
+watchedAtValidation,
+ageValidation,
+addPartcipant);
 
 app.listen(PORT, () => {
   console.log('Online');
