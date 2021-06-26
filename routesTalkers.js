@@ -80,11 +80,12 @@ router.delete('/:id', rescue(async (req, res, _next) => {
   const { id } = req.params;
   const read = await fs.readFile(file, 'utf8').then((result) => JSON.parse(result));
 
-  const newRead = read.filter((talker) => talker.id !== id);
+  const newRead = read.filter((talker) => talker.id !== Number(id));
+  console.log(newRead);
 
   await fs.writeFile(file, JSON.stringify(newRead));
 
-  return res.status(200).json(read);
+  return res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });
 }));
 
 module.exports = router;
