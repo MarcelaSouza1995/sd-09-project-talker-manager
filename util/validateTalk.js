@@ -13,7 +13,7 @@ function validateWatchedAt(watchedAt) {
 }
 
 function validateRate(rate, message) {
-  if (!rate) return defaultMessage;
+  if (!rate && rate !== 0) return defaultMessage;
 
   if (rate < 1 || rate > 5) {
     return 'O campo "rate" deve ser um inteiro de 1 à 5';

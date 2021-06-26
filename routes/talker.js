@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const HTTP_OK_STATUS = 200;
 
-const { readFile, addNewTalker } = require('../service');
+const { readFile, addNewTalker, updateTalker } = require('../service');
 const { validateToken, validateName, validateAge, validateTalk } = require('../util');
 
 router.get('/:id', async (request, response) => {
@@ -27,6 +27,15 @@ router.post(
   validateAge,
   validateTalk,
   addNewTalker,
+);
+
+router.put(
+  '/:id',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  updateTalker,
 );
 
 module.exports = router;
