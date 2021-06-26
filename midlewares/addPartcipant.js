@@ -7,7 +7,7 @@ const addPartcipant = (req, res) => {
     name,
     age,
     talk,
-    id: talkerJson.length + 1
+    id: data.length + 1,
   };
   data.push(newParticipant);
   fs.writeFileSync('talker.json', JSON.stringify(data));
