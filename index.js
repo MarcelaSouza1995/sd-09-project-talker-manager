@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const { getAllTalkers, getTalkerById, checkEmailAndPassword } = require('./services');
+const { getAllTalkers, getTalkerById, saveNewTalker } = require('./services');
+const validate = require('./middlewares/index');
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,7 +15,7 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-app.get('/talker', async (req, res, next) => {
+app.get('/talker', async (_req, res, next) => {
   const data = await getAllTalkers();
   if (data.status) {
     return next(data);
@@ -30,15 +31,25 @@ app.get('/talker/:id', async (req, res, next) => {
   return res.status(200).json(talker);
 });
 
-app.post('/login', (req, res, next) => {
-  const { email, password } = req.body;
-  const checkInfo = checkEmailAndPassword(email, password);
-  if (checkInfo.status) return next(checkInfo);
+app.post('/login', validate.validateEmailAndPassword, (req, res, _next) => {
   const token = crypto.randomBytes(8).toString('hex');
-  res.status(200).json({ token });
+  return res.status(200).json({ token });
 });
 
-app.use((err, req, res, _next) => res.status(err.status).json({ message: err.message }));
+app.post('/talker',
+  validate.validateAge,
+  validate.validateName,
+  validate.validateTalk,
+  validate.validateWatchedAtAndRate,
+  validate.validateToken,
+  async (req, res, next) => {
+    const talker = req.body;
+    const newTalker = await saveNewTalker(talker);
+    if (newTalker.status) return next(newTalker);
+    return res.status(201).json(talker);
+});
+
+app.use((err, _req, res, _next) => res.status(err.status).json({ message: err.message }));
 
 app.listen(PORT, () => {
   console.log('Online');
