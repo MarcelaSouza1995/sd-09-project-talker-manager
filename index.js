@@ -27,8 +27,7 @@ app.post('/login', validadeEmail);
 app.post('/login', validatePassword);
 app.post('/login', login);
 
-app.use(validateToken);
-
+app.post('/talker', validateToken);
 app.post('/talker', validateName);
 app.post('/talker', validateAge);
 app.post('/talker', validateTalk);
