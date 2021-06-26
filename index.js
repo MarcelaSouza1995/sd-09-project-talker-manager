@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const desafio1 = require('./middlewares');
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,4 +15,9 @@ app.get('/', (_request, response) => {
 
 app.listen(PORT, () => {
   console.log('Online');
+});
+
+app.get('/talker', async (req, res) => {
+  const getFile = await desafio1();
+  return res.status(HTTP_OK_STATUS).json(getFile);
 });
