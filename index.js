@@ -1,6 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { getTalker, generateToken } = require('./services/services');
+const fs = require('fs').promises;
+const { getTalker, generateToken, newTalker } = require('./services/services');
+const {
+  emailValidator,
+  passwordValidator,
+  tokenValidator,
+  nameValidator,
+  ageValidator,
+  talkValidator,
+  watchedAtValidator,
+  rateValidator } = require('./services/validators');
 
 const app = express();
 app.use(bodyParser.json());
@@ -34,27 +44,6 @@ app.get('/talker/:id', async (request, response) => {
 });
 
 // requisito 3
-
-const emailValidator = (email, response) => {
-  const emailRegex = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-  const emailTester = emailRegex.test(email);
-  if (!email || email.length === 0) {
-    return response.status(400).json({ message: 'O campo "email" é obrigatório' });
-  }
-  if (!emailTester) {
-    return response.status(400).json({ message: 'O "email" deve ter o formato "email@email.com"' });
-  }
-};
-
-const passwordValidator = (password, response) => {
-  if (!password || password.length === 0) {
-    return response.status(400).json({ message: 'O campo "password" é obrigatório' });
-  }
-  if (password.length < 6) {
-    return response.status(400).json({ message: 'O "password" deve ter pelo menos 6 caracteres' });
-  }
-};
-
 app.post('/login', (request, response) => {
   const { body: { email, password } } = request;
   emailValidator(email, response);
@@ -62,6 +51,22 @@ app.post('/login', (request, response) => {
   const token = generateToken();
   response.status(HTTP_OK_STATUS).json({ token });
   });
+
+// requisito 4
+app.post('/talker',
+tokenValidator,
+nameValidator,
+ageValidator,
+talkValidator,
+watchedAtValidator,
+rateValidator,
+async (request, response) => {
+  const talkers = await getTalker();
+  const talkerGenerator = await newTalker(request.body);
+  talkers.push(talkerGenerator);
+  await fs.writeFile('./talker.json', JSON.stringify(talkers));
+  response.status(201).json({ ...talkerGenerator });  
+});
 
 app.listen(PORT, () => {
   console.log('Online');
