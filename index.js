@@ -37,6 +37,20 @@ app.get('/talker', rescue(async (_req, res) => {
   res.status(200).json(talkers);
 }));
 
+// requisito 7
+
+app.get(
+  '/talker/search',
+  validateToken,
+  rescue(async (req, res) => {
+    const searchTerm = req.query.q;
+    const talkers = await getTalkers();
+    const selectedTalkers = talkers.filter(({ name }) => name.includes(searchTerm));
+
+    res.status(200).send(selectedTalkers);
+  }),  
+);
+
 // requisito 2
 
 app.get('/talker/:id', rescue(async (req, res) => {
