@@ -31,7 +31,7 @@ const {
 } = require('../middlewares');
 
 router.delete('/:id', [
-  tokenAuthentication,
+  tokenAuthentication(),
   rescue(async (req, res) => {
     const { id: paramId } = req.params;
     const talkersList = await getTalkers();
@@ -45,7 +45,7 @@ router.delete('/:id', [
       .status(200)
       .json({ message: 'Pessoa palestrante deletada com sucesso' });
   }),
-  handleErrorMiddleware,
+  handleErrorMiddleware(),
 ]);
 
 module.exports = router;

@@ -14,7 +14,7 @@ const {
   requisito4,
   requisito5,
   requisito6,
-  // requisito7,
+  requisito7,
 } = require('./routes');
 
 // não remova esse endpoint, e para o avaliador funcionar
@@ -22,6 +22,7 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
+app.use('/talker/search', requisito7);
 app.use('/talker', requisito1, requisito2, requisito4, requisito5, requisito6);
 app.use('/login', requisito3);
 
