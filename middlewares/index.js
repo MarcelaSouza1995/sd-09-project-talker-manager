@@ -1,12 +1,9 @@
-const fs = require('fs/promises');
+const HTTP_OK_STATUS = 200;
+const { dataTalkers } = require('../services');
 
-const desafio1 = async () => {
-    try {
-        const file = await fs.readFile('./talker.json', 'utf8');
-        return file.length !== [] ? JSON.parse(file) : [];
-    } catch (error) {
-        return ({ code: 500, message: `${error}` });
-    }
+module.exports = {
+    getAllTalkers: async (req, res) => {
+        const getFile = await dataTalkers();
+        return res.status(HTTP_OK_STATUS).json(getFile);
+    },
 };
-
-module.exports = desafio1;
