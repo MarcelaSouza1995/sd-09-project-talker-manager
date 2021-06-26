@@ -18,6 +18,10 @@ app.get('/talker', dataTalker, (req, res) => {
   res.status(200).send(JSON.parse(req.data));
 });
 
+app.get('/talker/:id', dataTalker, (req, res) => {
+  res.status(200).send(JSON.parse(req.data));
+});
+
 app.listen(PORT, () => {
   console.log('Online');
 });
