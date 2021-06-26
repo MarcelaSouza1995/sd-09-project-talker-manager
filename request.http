@@ -1,0 +1,17 @@
+# PUT http://localhost:3000/talker/1 HTTP/1.1
+# content-type: application/json
+# authorization: 1111111111111111
+
+# {
+#   "name": "Danielle Santos - teste",
+#   "age": 56,
+#   "talk": {
+#     "watchedAt": "22/10/2019",
+#     "rate": 5
+#   }
+# }
+
+# ####
+
+# GET http://localhost:3000/talker/search?q=He HTTP/1.1
+# authorization: 1111111111111111

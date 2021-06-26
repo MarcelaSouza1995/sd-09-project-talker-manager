@@ -10,6 +10,14 @@ app.use(bodyParser.json());
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
+const FILE_PATH = './talker.json';
+
+const authenticationMiddleware = (req, res, next) => {
+  const { authorization } = req.headers;
+  if (!authorization) return res.status(401).send({ message: 'Token não encontrado' });
+  if (authorization.length < 16) return res.status(401).send({ message: 'Token inválido' });
+  return next();
+};
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
@@ -17,14 +25,22 @@ app.get('/', (_request, response) => {
 });
 
 app.get('/talker', (_req, res) => {
-  fs.readFile('./talker.json', 'utf-8').then((response) => (
+  fs.readFile(FILE_PATH, 'utf-8').then((response) => (
     response ? res.status(200).send(JSON.parse(response)) : res.status(200).send([])
   ));
 });
 
+app.get('/talker/search', authenticationMiddleware, async (req, res) => {
+  const { q } = req.query;
+  const talkerArray = await fs.readFile(FILE_PATH, 'utf-8')
+    .then((response) => JSON.parse(response));
+  const talkers = talkerArray.filter((talker) => talker.name.includes(q));
+  return res.status(200).send(talkers);
+});
+
 app.get('/talker/:id', (req, res) => {
   const { id } = req.params;
-  fs.readFile('./talker.json', 'utf-8').then((response) => {
+  fs.readFile(FILE_PATH, 'utf-8').then((response) => {
     const talker = JSON.parse(response).find((talkerObj) => talkerObj.id === Number(id));
     return talker
       ? res.status(200).send(talker)
@@ -46,12 +62,7 @@ app.post('/login', (req, res) => {
   return res.status(200).send({ token });
 });
 
-app.use((req, res, next) => {
-  const { authorization } = req.headers;
-  if (!authorization) return res.status(401).send({ message: 'Token não encontrado' });
-  if (authorization.length < 16) return res.status(401).send({ message: 'Token inválido' });
-  return next();
-});
+app.use(authenticationMiddleware);
 
 const nameValidation = (req, res, next) => {
   const { name } = req.body;
@@ -108,13 +119,48 @@ app.post(
   talkRateValidation,
   async (req, res) => {
     const { name, age, talk } = req.body;
-    const oldArray = await fs.readFile('./talker.json', 'utf-8')
+    const oldArray = await fs.readFile(FILE_PATH, 'utf-8')
       .then((response) => JSON.parse(response));
     fs.writeFile(
-      './talker.json', JSON.stringify([...oldArray, { id: oldArray.length + 1, name, age, talk }]),
+      FILE_PATH, JSON.stringify([...oldArray, { id: oldArray.length + 1, name, age, talk }]),
       ).then(() => res.status(201).send({ id: oldArray.length + 1, name, age, talk }));
   },
 );
+
+app.put(
+  '/talker/:id',
+  nameValidation,
+  ageValidation,
+  talkValidation,
+  talkDateValidation,
+  talkRateValidation,
+  async (req, res) => {
+    const { id } = req.params;
+    const { name, age, talk } = req.body;
+    const talker = await fs.readFile(FILE_PATH, 'utf-8')
+      .then((response) => JSON.parse(response))
+      .then((response) => response.find((talkerObj) => talkerObj.id === Number(id)));
+    const talkerArray = await fs.readFile(FILE_PATH, 'utf-8')
+      .then((response) => JSON.parse(response))
+      .then((response) => response.filter((talkerObj) => talkerObj.id !== Number(id)));
+    talker.name = name;
+    talker.age = age;
+    talker.talk = talk;
+    fs.writeFile(
+      FILE_PATH, JSON.stringify([...talkerArray, talker]),
+      ).then(() => res.status(200).send({ id: Number(id), name, age, talk }));
+  },
+);
+
+app.delete('/talker/:id', async (req, res) => {
+  const { id } = req.params;
+  const talkerArray = await fs.readFile(FILE_PATH, 'utf-8')
+    .then((response) => JSON.parse(response))
+    .then((response) => response.filter((talkerObj) => talkerObj.id !== Number(id)));
+  fs.writeFile(
+    FILE_PATH, JSON.stringify([...talkerArray]),
+    ).then(() => res.status(200).send({ message: 'Pessoa palestrante deletada com sucesso' }));
+});
 
 app.listen(PORT, () => {
   console.log('Online');
