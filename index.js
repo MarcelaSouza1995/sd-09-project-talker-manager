@@ -22,6 +22,9 @@ app.get('/talker/:id', middlewares.getTalkerById);
 // Requisito 03
 app.post('/login', middlewares.postLogin);
 
+// Requisito 04
+app.post('/talker', middlewares.addNewTalker);
+
 app.listen(PORT, () => {
   console.log('Online');
 });
