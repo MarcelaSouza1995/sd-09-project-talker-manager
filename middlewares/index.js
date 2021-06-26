@@ -4,6 +4,7 @@ const postLogin = require('./postLogin');
 const addNewTalker = require('./addNewTalker');
 const editTalkerById = require('./editTalkerById');
 const deleteTalkerById = require('./deleteTalkerById');
+const queryTalkerByName = require('./queryTalkerByName');
 
 module.exports = {
     getAllTalkers,
@@ -12,4 +13,5 @@ module.exports = {
     addNewTalker,
     editTalkerById,
     deleteTalkerById,
+    queryTalkerByName,
 };

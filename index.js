@@ -7,6 +7,7 @@ const {
   addNewTalker,
   editTalkerById,
   deleteTalkerById,
+  queryTalkerByName,
 } = require('./middlewares');
 const {
   tokenValidation,
@@ -16,7 +17,8 @@ const {
   ageValidation,
   talkValidation,
   watchedAtValidation,
-  rateValidation } = require('./services');
+  rateValidation,
+} = require('./services');
 
 const app = express();
 app.use(bodyParser.json());
@@ -31,6 +33,11 @@ app.get('/', (_request, response) => {
 
 // Requisito 01
 app.get('/talker', getAllTalkers);
+
+// Requisito 07
+app.get('/talker/search',
+  tokenValidation,
+  queryTalkerByName);
 
 // Requisito 02
 app.get('/talker/:id', getTalkerById);
