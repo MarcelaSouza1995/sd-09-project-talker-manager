@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require('fs').promises;
+const rescue = require('express-rescue');
 const middlewares = require('./middlewares');
 
 const router = express.Router();
@@ -25,13 +26,11 @@ router.get('/:id', async (req, res, _next) => {
 
 router.use(middlewares.validatorToken);
 
-router.use(middlewares.validatorNameAndAge);
-
-router.use(middlewares.validatorTalker);
-
-router.use(middlewares.validatorWatchedAtAndRate);
-
-router.post('/', async (req, res, _next) => {
+router.post('/',
+  middlewares.validatorNameAndAge,
+  middlewares.validatorTalker,
+  middlewares.validatorWatchedAtAndRate,
+  rescue(async (req, res, _next) => {
   const { name, age, talk: { watchedAt, rate } } = req.body;
   const read = await fs.readFile(file, 'utf8').then((result) => JSON.parse(result));
 
@@ -45,28 +44,24 @@ router.post('/', async (req, res, _next) => {
     },
   };
 
-  read.push(newTalker);
+  const newRead = [...read, newTalker];
 
-  await fs.writeFile(file, JSON.stringify(read));
+  await fs.writeFile(file, JSON.stringify(newRead));
 
   return res.status(201).json(newTalker);
-});
+}));
 
-const editTalker = async (newTalker, read, id, res) => {
-  read.map((talker) => (talker.id === id ? newTalker : talker));
-
-  await fs.writeFile(file, JSON.stringify(read));
-
-  return res.status(200).json(newTalker);
-};
-
-router.put('/:id', async (req, res, _next) => {
+router.put('/:id',
+  middlewares.validatorNameAndAge,
+  middlewares.validatorTalker,
+  middlewares.validatorWatchedAtAndRate,
+  rescue(async (req, res, _next) => {
   const { id } = req.params;
   const { name, age, talk: { watchedAt, rate } } = req.body;
   const read = await fs.readFile(file, 'utf8').then((result) => JSON.parse(result));
 
   const newTalker = {
-    id,
+    id: Number(id),
     name,
     age,
     talk: {
@@ -75,7 +70,21 @@ router.put('/:id', async (req, res, _next) => {
     },
   };
 
-  editTalker(newTalker, read, id, res);
-});
+  read[id - 1] = newTalker;
+  await fs.writeFile(file, JSON.stringify(read));
+
+  return res.status(200).json(newTalker);
+}));
+
+router.delete('/:id', rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const read = await fs.readFile(file, 'utf8').then((result) => JSON.parse(result));
+
+  const newRead = read.filter((talker) => talker.id !== id);
+
+  await fs.writeFile(file, JSON.stringify(newRead));
+
+  return res.status(200).json(read);
+}));
 
 module.exports = router;
