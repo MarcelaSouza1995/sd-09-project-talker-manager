@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const rescue = require('express-rescue');
+const fs = require('fs').promises;
 const { 
   getTalkers,
   validateEmail,
@@ -63,8 +64,13 @@ app.post(
   validateTalk,
   validateWatchedAt,
   validateRate,
-  (req, res) => {
+  rescue(async (req, res) => {
     const { body } = req;
+    const allTalkers = await getTalkers();
+    body.id = allTalkers.length + 1;
+    allTalkers.push(body);
+
+    await fs.writeFile('talker.json', JSON.stringify(allTalkers));
     res.status(201).json(body);
-  },
+  }),
 );
