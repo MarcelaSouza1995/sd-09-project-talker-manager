@@ -29,7 +29,7 @@ const postLogin = (req, res, next) => {
   if (passwordStatus) {
     return next(passwordStatus);
   }  
-  const tokenObj = { token: crypto.randomBytes(16).toString('hex') };
+  const tokenObj = { token: crypto.randomBytes(8).toString('hex') };
   return res.status(200).send(JSON.stringify(tokenObj));
 };
 

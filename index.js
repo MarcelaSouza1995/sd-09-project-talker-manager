@@ -23,8 +23,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use((error, _req, res, _next) => {
-  console.log(error);
-  res.status(500).send({ message: error.message });
+  res.status(error.code).send({ message: error.message });
 });
 
 app.listen(PORT, () => {
