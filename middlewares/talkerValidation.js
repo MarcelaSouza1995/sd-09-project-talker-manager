@@ -22,7 +22,7 @@ const ageRes = (req, res) => {
 };
 
 const talkRes = (req, res) => {
-  if (!req.body.talk || !req.body.talk.watchedAt || !req.body.talk.rate) {
+  if (!req.body.talk || !req.body.talk.watchedAt || req.body.talk.rate === undefined) {
     return res.status(400).json(
       { message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios' },
     );

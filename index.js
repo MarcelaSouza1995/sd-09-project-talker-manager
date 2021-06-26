@@ -8,11 +8,12 @@ const {
 
 const app = express();
 const dataTalker = './talker.json';
-app.use(bodyParser.json());
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 const TOKEN = '7mqaVRXJSp886CGr';
+
+app.use(bodyParser.json());
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
@@ -54,6 +55,24 @@ app.post('/talker', tokenValidation, talkerValidation, (req, res) => {
         .then(() => {
           res.status(201).json(newTalker);
         });
+    });
+});
+
+app.put('/talker/:id', tokenValidation, talkerValidation, (req, res) => {
+  fs.readFile(dataTalker)
+    .then((data) => {
+      const talkers = JSON.parse(data);
+      let indexEdit = -1;
+      talkers.forEach((talker, index) => {
+        if (talker.id === Number(req.params.id)) indexEdit = index; 
+      });
+      if (indexEdit === -1) {
+        return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+      }
+      const editTalker = { id: Number(req.params.id), ...req.body };
+      talkers.splice(indexEdit, 1, editTalker);
+      fs.writeFile(dataTalker, JSON.stringify(talkers))
+        .then(() => res.status(200).json(editTalker));
     });
 });
 
