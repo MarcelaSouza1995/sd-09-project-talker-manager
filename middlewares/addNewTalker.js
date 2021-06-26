@@ -1,4 +1,4 @@
-const fs = require('fs/promises');
+const fs = require('fs').promises;
 
 const addNewTalker = async (req, res, _next) => {
   const talkers = await fs.readFile('./talker.json', 'utf8').then((data) => JSON.parse(data));

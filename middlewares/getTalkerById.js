@@ -1,4 +1,4 @@
-const fs = require('fs/promises');
+const fs = require('fs').promises;
 
 const getTalkerById = async (req, res, _next) => {
   try {
