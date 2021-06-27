@@ -30,7 +30,7 @@ module.exports = {
     if (talk) {
       const { watchedAt, rate } = talk;
 
-      if (watchedAt && rate) {
+      if (watchedAt && rate !== undefined) {
         validateWatchedAt(watchedAt);
         validateRate(rate);
         return;
