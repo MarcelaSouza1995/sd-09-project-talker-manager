@@ -1,4 +1,4 @@
-const fs = require('fs/promises');
+const fs = require('fs').promises;
 const { FileError } = require('../errors');
 
 const talkersFile = 'talker.json';
