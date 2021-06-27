@@ -1,4 +1,5 @@
 const { readFile } = require('../middlewares');
+const { NotFoundError } = require('../errors');
 
 module.exports = {
   getTalkers(req, res, next) {
@@ -9,18 +10,20 @@ module.exports = {
       next(err);
     }
   },
-  getTalkerById(req, res) {
+  getTalkerById(req, res, next) {
     const { id } = req.params;
 
     try {
-      const talkersData = fs.readFileSync(talkersFile, 'utf8');
-      if (talkersData.length > 0) {
-        res.status(200).json(JSON.parse(talkersData));
+      const talkersData = readFile();
+      const talker = talkersData.find(({ id: talkerId }) => talkerId === Number(id));
+
+      if (talker) {
+        res.status(200).json(talker);
       } else {
-        res.status(200).json([]);
+        throw new NotFoundError('Pessoa palestrante');
       }
     } catch (err) {
-      throw new FileError(talkersFile);
+      next(err);
     }
   },
 };
