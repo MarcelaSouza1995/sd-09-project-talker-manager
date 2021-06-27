@@ -16,8 +16,6 @@ const findTalker = rescue(async (req, res) => {
     
     const filteredTalker = data.find((talker) => talker.id === +(id));
 
-    console.log(filteredTalker);
-
     if (!filteredTalker) {
         return res.status(NOT_FOUND).json({
             message: 'Pessoa palestrante não encontrada', 
