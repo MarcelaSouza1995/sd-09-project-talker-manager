@@ -6,7 +6,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const HTTP_OK_STATUS = 200;
-const HTTP_NOT_FOUND_STATUS = 400;
+const HTTP_NOT_FOUND_STATUS = 404;
 const PORT = '3000';
 const NOT_FOUND_MESSAGE = 'Pessoa palestrante não encontrada';
 
