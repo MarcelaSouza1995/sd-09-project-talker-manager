@@ -1,10 +1,17 @@
-const fs = require('fs');
-const { FileError } = require('../errors');
-
-const talkersFile = 'talker.json';
+const { readFile } = require('../middlewares');
 
 module.exports = {
-  getTalkers(req, res) {
+  getTalkers(req, res, next) {
+    try {
+      const talkersData = readFile();
+      res.status(200).json(talkersData);
+    } catch (err) {
+      next(err);
+    }
+  },
+  getTalkerById(req, res) {
+    const { id } = req.params;
+
     try {
       const talkersData = fs.readFileSync(talkersFile, 'utf8');
       if (talkersData.length > 0) {
@@ -15,8 +22,5 @@ module.exports = {
     } catch (err) {
       throw new FileError(talkersFile);
     }
-  },
-  getTalkerById(req, res) {
-
   },
 };
