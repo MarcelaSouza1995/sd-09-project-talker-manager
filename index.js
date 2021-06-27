@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./routes');
+const middlewares = require('./middlewares');
 
 const app = express();
 app.use(bodyParser.json());
@@ -9,6 +10,8 @@ const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
 app.use('/', routes);
+
+app.use(middlewares.errorTreatment);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {

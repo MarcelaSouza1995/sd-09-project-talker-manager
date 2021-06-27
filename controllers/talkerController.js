@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { FileError } = require('../errors');
 
 const talkersFile = 'talker.json';
 
@@ -12,7 +13,10 @@ module.exports = {
         res.status(200).json([]);
       }
     } catch (err) {
-      throw new Error(`Erro ao ler arquivo: ${talkersFile}`);
+      throw new FileError(talkersFile);
     }
+  },
+  getTalkerById(req, res) {
+
   },
 };
