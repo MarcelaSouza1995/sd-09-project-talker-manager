@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 
 const emailValidator = (email, res) => {
-  const emailRegex = new RegExp('^[a-z0-9.]+@[a-z0-9]+\.[a-z]+');
+  const emailRegex = new RegExp('^[a-z0-9.]+@[a-z0-9]+.[a-z]+');
 
   if (!email) return res.status(400).json({ message: 'O campo "email" é obrigatório' });
   if (!emailRegex.test(email)) {
