@@ -15,6 +15,7 @@ app.get('/', (_request, response) => {
 
 app.get('/talker', middlewares.getTalkers);
 app.get('/talker/:id', middlewares.getTalker);
+app.post('/login', middlewares.validateEmail, middlewares.validatePassword, middlewares.login);
 
 app.listen(PORT, () => {
   console.log('Online');
