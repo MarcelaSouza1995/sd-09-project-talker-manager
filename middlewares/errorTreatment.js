@@ -9,6 +9,8 @@ module.exports = (err, _req, res, _next) => {
       return res.status(404).json(body);
     case errors.InvalidArgumentError:
       return res.status(400).json(body);
+    case errors.TokenError:
+      return res.status(401).json(body);
     default:
       return res.status(500).json(body);
   }
