@@ -2,12 +2,15 @@ const fs = require('fs').promises;
 
 const getTalkers = async (_req, res) => {
   const talkers = await fs.readFile('./talker.json', 'utf-8').then((data) => JSON.parse(data));
-  // talkers = talkers.substring(1);
-  // const last = talkers.length - 2;
-  // talkers = talkers.substring(1, last);
-  // JSON.parse(talkers);
-  console.log(talkers);
   res.status(200).send(talkers);
 };
 
-module.exports = { getTalkers };
+const getTalker = async (req, res) => {
+  const { id } = req.params;
+  const talkers = await fs.readFile('./talker.json', 'utf-8').then((data) => JSON.parse(data));
+  const talker = talkers.find((tal) => tal.id === +id);
+  if (!talker) return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  res.status(200).json(talker);
+};
+
+module.exports = { getTalkers, getTalker };
