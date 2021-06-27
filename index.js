@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const middleware = require('./middleware');
 const talkerRouter = require('./routers');
 
 const app = express();
@@ -13,6 +14,8 @@ const PORT = '3000';
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
+
+app.post('/login', middleware.validations, middleware.login);
 
 app.use('/talker', talkerRouter);
 
