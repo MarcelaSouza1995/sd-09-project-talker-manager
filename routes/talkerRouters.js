@@ -1,22 +1,27 @@
 const router = require('express').Router();
-const getTalkers = require('../services/getDataTalker');
-const httpStatusCode = require('../httpStatusCodeList');
+const readTalkersJson = require('../services/readTalkerJson');
+const messageError = require('../services/messagesOfError');
+const {
+  tokenValidateMiddleware,
+  fieldsValidateMiddleware,
+  createTalkerMiddleware } = require('../middlewares');
+const code = require('../httpStatusCodeList');
 
 router.get('/', async (_req, res) => {
-  const talkers = await getTalkers();
-  if (!talkers) return res.status(httpStatusCode.ok).json([]);
-  return res.status(httpStatusCode.ok).json(talkers);
+  const talkers = await readTalkersJson();
+  if (!talkers) return res.status(code.ok).json([]);
+  return res.status(code.ok).json(talkers);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
   const { id } = req.params;
-  const talker = (await getTalkers()).find((persona) => persona.id === Number(id));
+  const talker = (await readTalkersJson()).find((persona) => persona.id === Number(id));
   if (!talker) {
-    return res.status(httpStatusCode.notFound).json({
-      message: 'Pessoa palestrante não encontrada',
-    });
+    return next({ message: messageError.talkNotFound, status: code.notFound });
   }
-  return res.status(httpStatusCode.ok).json(talker);
+  return res.status(code.ok).json(talker);
 });
+
+router.post('/', tokenValidateMiddleware, fieldsValidateMiddleware, createTalkerMiddleware);
 
 module.exports = router;
