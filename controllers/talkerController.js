@@ -65,4 +65,18 @@ module.exports = {
       return next(err);
     }
   },
+  async deleteTalker(req, res, next) {
+    try {
+      const { id } = req.params;
+      const prevTalkersData = readFile();
+      const filteredTalkerArray = prevTalkersData
+        .filter(({ id: talkerId }) => Number(id) !== talkerId);
+
+      await writeFile([...filteredTalkerArray]);
+
+      return res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });
+    } catch (err) {
+      return next(err);
+    }
+  },
 };

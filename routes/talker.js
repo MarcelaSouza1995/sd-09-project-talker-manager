@@ -14,4 +14,7 @@ router.post('/talker', middlewares.authentication.bearer, talkerController.creat
 // Edita talker
 router.put('/talker/:id', middlewares.authentication.bearer, talkerController.editTalker);
 
+// Deleta talker
+router.delete('/talker/:id', middlewares.authentication.bearer, talkerController.deleteTalker);
+
 module.exports = router;
