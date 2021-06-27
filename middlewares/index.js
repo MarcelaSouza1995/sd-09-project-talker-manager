@@ -1,7 +1,8 @@
+const { dataTalkers, getById, loginIsValid } = require('../services');
+
 const HTTP_OK_STATUS = 200;
 const HTTP_NOT_FOUND = 404;
-const { dataTalkers, getById } = require('../services');
-
+const HTTP_BAD_RESQUEST = 400;
 const FILE_NAME = 'talker.json';
 
 module.exports = {
@@ -18,5 +19,19 @@ module.exports = {
                 { message: 'Pessoa palestrante não encontrada' },
             );
         return result;
+    },
+    login: async (req, res) => {
+        const { email, password } = req.body;
+        if (!email) {
+            res.status(HTTP_BAD_RESQUEST).json({
+                message: 'O campo "email" é obrigatório',
+            });
+        }
+        if (!password) {
+            res.status(HTTP_BAD_RESQUEST).json({
+                message: 'O campo "password" é obrigatório',
+            });
+        }
+        loginIsValid(req, res);
     },
 };
