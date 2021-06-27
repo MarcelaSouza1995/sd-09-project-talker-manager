@@ -4,6 +4,7 @@ const errorMiddleware = require('./errorMiddleware');
 const createTalkerMiddleware = require('./createTalkerMiddleware');
 const updateTalkMiddleware = require('./updateTalkMiddleware');
 const deleteTalkerMiddleware = require('./deleteTalkerMiddleware');
+const searchTalker = require('./searchTalker');
 
 module.exports = {
   tokenValidateMiddleware,
@@ -12,4 +13,5 @@ module.exports = {
   createTalkerMiddleware,
   updateTalkMiddleware,
   deleteTalkerMiddleware,
+  searchTalker,
 };

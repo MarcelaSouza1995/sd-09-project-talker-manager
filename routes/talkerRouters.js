@@ -6,7 +6,8 @@ const {
   fieldsValidateMiddleware,
   createTalkerMiddleware,
   updateTalkMiddleware,
-  deleteTalkerMiddleware } = require('../middlewares');
+  deleteTalkerMiddleware,
+  searchTalker } = require('../middlewares');
 const code = require('../httpStatusCodeList');
 
 router.get('/', async (_req, res) => {
@@ -14,6 +15,8 @@ router.get('/', async (_req, res) => {
   if (!talkers) return res.status(code.ok).json([]);
   return res.status(code.ok).json(talkers);
 });
+
+router.get('/search', tokenValidateMiddleware, searchTalker);
 
 router.get('/:id', async (req, res, next) => {
   const { id } = req.params;
