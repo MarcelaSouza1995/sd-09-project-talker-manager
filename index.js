@@ -1,6 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const ahiu = false;
+if (ahiu) console.log(ahiu);
+
 const app = express();
 app.use(bodyParser.json());
 
