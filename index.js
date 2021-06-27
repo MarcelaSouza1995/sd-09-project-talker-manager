@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 const {
   dataTalker,
   dataTalkerId,
-
 } = require('./src/middlewares/talker');
+const login = require('./src/middlewares/login');
 
 const app = express();
 app.use(bodyParser.json());
@@ -28,6 +28,8 @@ app.get('/talker/:id', dataTalkerId, (req, res) => {
   }
   return res.status(200).send(req.talkerById);
 });
+
+app.post('/login', login);
 
 app.listen(PORT, () => {
   console.log('Online');
