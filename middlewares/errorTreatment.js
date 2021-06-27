@@ -7,6 +7,8 @@ module.exports = (err, _req, res, _next) => {
       return res.status(503).json(body);
     case errors.NotFoundError:
       return res.status(404).json(body);
+    case errors.InvalidArgumentError:
+      return res.status(400).json(body);
     default:
       return res.status(500).json(body);
   }

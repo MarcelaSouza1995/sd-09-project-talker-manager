@@ -1,9 +1,9 @@
 const router = require('express').Router();
 
 const talker = require('./talker');
-// const login = require('./login');
+const userAccess = require('./userAccess');
 
 router.use(talker);
-// router.use(login);
+router.use(userAccess);
 
 module.exports = router;
