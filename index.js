@@ -9,7 +9,8 @@ const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
 const getTalkers = async (request, _response, next) => {
-  const talkersList = await fs.readFile('./talker.json', 'utf8');
+  let talkersList = await fs.readFile('./talker.json', 'utf8');
+  talkersList = JSON.parse(talkersList);
   request.talkersList = talkersList;
   next();
 };
