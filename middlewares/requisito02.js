@@ -1,11 +1,12 @@
-const fs = require('fs');
+const talkers = require('../utils/readFile');
 
-const getTalkerById = (req, res) => {
+const file = 'talker.json';
+
+const getTalkerById = async (req, res) => {
   const { id } = req.params;
-  const idTalker = parseInt(id, 10);
 
-  const talkersData = JSON.parse(fs.readFileSync('talker.json', 'utf8'));
-  const findTalker = talkersData.find((talker) => talker.id === idTalker);
+  const data = await talkers(file);
+  const findTalker = data.find((talker) => talker.id === parseInt(id, 10));
 
   if (!findTalker) {
     return res
