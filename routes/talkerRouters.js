@@ -4,7 +4,8 @@ const messageError = require('../services/messagesOfError');
 const {
   tokenValidateMiddleware,
   fieldsValidateMiddleware,
-  createTalkerMiddleware } = require('../middlewares');
+  createTalkerMiddleware,
+  updateTalkMiddleware } = require('../middlewares');
 const code = require('../httpStatusCodeList');
 
 router.get('/', async (_req, res) => {
@@ -23,5 +24,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 router.post('/', tokenValidateMiddleware, fieldsValidateMiddleware, createTalkerMiddleware);
+
+router.put('/:id', tokenValidateMiddleware, fieldsValidateMiddleware, updateTalkMiddleware);
 
 module.exports = router;

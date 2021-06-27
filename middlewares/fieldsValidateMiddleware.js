@@ -12,13 +12,14 @@ const validateAgeField = (age) => {
 };
 
 const validateRateField = (rate) => {
-  const conditionRate = rate >= 1 && rate <= 5;
+  const conditionRate = rate < 1 || rate > 5;
+  if (conditionRate) return messageError.rateInvalid;
   if (!rate) return messageError.talkRequerid;
-  if (!conditionRate) return messageError.rateInvalid;
 };
 
 const validateWatchedAtField = (watchedAt) => {
-  const regex = /(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[12])\/(19|20)\d{2}/;
+  const regex = /\d{2}\/\d{2}\/\d{4}/;
+
   if (!watchedAt) {
     return messageError.talkRequerid;
   }
@@ -30,11 +31,11 @@ const validateWatchedAtField = (watchedAt) => {
 const validateTalkField = (talk) => {
   if (!talk) return messageError.talkRequerid;
 
-  const watchedErrorMessage = validateWatchedAtField(talk.watchedAt);
   const rateErrorMessage = validateRateField(talk.rate);
+  const watchedErrorMessage = validateWatchedAtField(talk.watchedAt);
 
-  if (watchedErrorMessage) return watchedErrorMessage;
   if (rateErrorMessage) return rateErrorMessage;
+  if (watchedErrorMessage) return watchedErrorMessage;
 };
 
 const fieldsTalkersValidate = (req, _res, next) => {

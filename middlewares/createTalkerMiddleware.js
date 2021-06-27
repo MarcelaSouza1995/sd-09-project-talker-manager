@@ -4,10 +4,10 @@ const writeTalkerJson = require('../services/writeTalkerJson');
 
 const addTalkerMiddleware = async (req, res, next) => {
   try {
-    const talkersArray = await readTalkersJson();
+    const talkersArray = await readTalkersJson(next);
     const newTalk = { id: talkersArray.length + 1, ...req.body };
     talkersArray.push(newTalk);
-    writeTalkerJson(talkersArray);
+    writeTalkerJson(talkersArray, next);
     res.status(code.created).json(newTalk);
   } catch (err) {
     next({ message: err, status: code.internalServerError });
