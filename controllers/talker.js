@@ -39,6 +39,21 @@ const addTalker = async (req, res) => {
   return res.status(CREATED_STATUS).json(newTalker);
 };
 
+const editTalker = async (req, res) => {
+  const { id } = req.params;
+  const newTalker = {
+    ...req.body,
+    id: parseInt(id, 10),
+  };
+
+  const talkersList = await readFile(TALKERS_FILE);
+  const newTalkersList = talkersList.filter((talker) => talker.id !== parseInt(id, 10));
+  newTalkersList.push(newTalker);
+  await writeFile(TALKERS_FILE, JSON.stringify(newTalkersList));
+
+  return res.status(OK_STATUS).json(newTalker);
+};
+
 const validateToken = (req, res, next) => {
   const { authorization } = req.headers;
 
@@ -114,7 +129,7 @@ const validateWatchedAt = (req, res, next) => {
 const validateRate = (req, res, next) => {
   const { talk: { rate } } = req.body;
 
-  if (!rate) {
+  if (!rate && parseInt(rate, 10) !== 0) {
     return res.status(BAD_REQUEST_STATUS)
     .json({ message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios' });
   }
@@ -137,4 +152,5 @@ module.exports = {
   validateWatchedAt,
   validateRate,
   addTalker,
+  editTalker,
 };

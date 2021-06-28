@@ -18,4 +18,15 @@ talkerRouter.post(
   talkerController.addTalker,
 );
 
+talkerRouter.put(
+  '/:id',
+  talkerController.validateToken,
+  talkerController.validateName,
+  talkerController.validateAge,
+  talkerController.validateTalk,
+  talkerController.validateWatchedAt,
+  talkerController.validateRate,
+  talkerController.editTalker,
+);
+
 module.exports = talkerRouter;
