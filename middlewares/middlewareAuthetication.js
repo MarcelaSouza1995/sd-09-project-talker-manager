@@ -1,4 +1,4 @@
-const authMiddleware = (req, res, next) => {
+const middlewareAuthentication = (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization) {
     return res.status(401).json({ message: 'Token não encontrado' });
@@ -13,4 +13,4 @@ const authMiddleware = (req, res, next) => {
   next();
 };
 
-module.exports = authMiddleware;
+module.exports = middlewareAuthentication;
