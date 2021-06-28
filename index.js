@@ -60,7 +60,7 @@ app.post('/talker',
     return res.status(201).json(newTalker);
   }));
 // requisito 5
-app.put('talker/:id',
+app.put('/talker/:id',
 validate.validationNameAndAge,
 validate.validationTalk,
 validate.validatorWatchedAtAndRate,
@@ -82,6 +82,16 @@ validate.validatorWatchedAtAndRate,
   return res.status(200).json(newTalker);
 }));
 // requisito 6
+app.delete('/talker/:id', rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const talkers = await talkerFunc.readTalker();
+
+  const newTalkers = talkers.filter((talker) => talker.id !== Number(id));
+
+  await talkerFunc.writeTalker(newTalkers);
+
+  return res.status(HTTP_OK_STATUS).json({ message: 'Pessoa palestrante deletada com sucesso' });
+}));
 
 app.listen(PORT, () => {
   console.log('Online');
