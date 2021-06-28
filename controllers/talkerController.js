@@ -11,6 +11,23 @@ module.exports = {
       return next(err);
     }
   },
+  getTalkersByName(req, res, next) {
+    const { q: name } = req.query;
+    console.log(name);
+    try {
+      const talkersData = readFile();
+
+      const filteredTalkers = !name ? talkersData : (
+        talkersData.filter(({ name: talkerName }) => (
+          talkerName.toLowerCase().includes(name.toLowerCase())
+        ))
+      );
+
+      return res.status(200).json(filteredTalkers);
+    } catch (err) {
+      return next(err);
+    }
+  },
   getTalkerById(req, res, next) {
     const { id } = req.params;
 
@@ -21,7 +38,7 @@ module.exports = {
       if (talker) {
         return res.status(200).json(talker);
       }
-        throw new NotFoundError('Pessoa palestrante');
+      throw new NotFoundError('Pessoa palestrante');
     } catch (err) {
       return next(err);
     }

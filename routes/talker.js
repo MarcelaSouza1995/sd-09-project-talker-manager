@@ -5,6 +5,9 @@ const middlewares = require('../middlewares');
 // Lista todos os talkers
 router.get('/talker', talkerController.getTalkers);
 
+// Lista talkers pela busca do nome
+router.get('/talker/search', middlewares.authentication.bearer, talkerController.getTalkersByName);
+
 // Lista talker por ID
 router.get('/talker/:id', talkerController.getTalkerById);
 
