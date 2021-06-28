@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const readFile = (file) => {
+const readFileTalkers = (file) => {
   try {
     const data = fs.readFileSync(file, 'utf8');
     return JSON.parse(data);
@@ -9,4 +9,4 @@ const readFile = (file) => {
   }
 };
 
-module.exports = readFile;
+module.exports = readFileTalkers;
