@@ -1,18 +1,13 @@
-const validationEmail = (req, res, next) => {
-    const { email } = req.body;
+const validationEmailAndPassword = (req, res, next) => {
+    const { email, password } = req.body;
     const re = /\S+@\S+\.\S+/;
-    if (!email || email.length === 0) {
+    if (!email) {
         return res.status(400).json({ message: 'O campo "email" é obrigatório' });
     }
     if (!re.test(email)) {
         return res.status(400).json({ message: 'O "email" deve ter o formato "email@email.com"' });
     }
-    return next();
-};
-
-const validationPassword = (req, res, next) => {
-    const { password } = req.body;
-    if (!password || password.length === 0) {
+    if (!password) {
         return res.status(400).json({ message: 'O campo "password" é obrigatório' });
     }
     if (password.length < 5) {
@@ -33,20 +28,15 @@ const validationToken = (req, res, next) => {
     return next();
 };
 
-const validationName = (req, res, next) => {
-    const { name } = req.body;
-    if (!name || name.length === 0) {
+const validationNameAndAge = (req, res, next) => {
+    const { name, age } = req.body;
+    if (!name) {
         return res.status(400).json({ message: 'O campo "name" é obrigatório' });
     }
     if (name.length < 3) {
         return res.status(400).json({ message: 'O "name" deve ter pelo menos 3 caracteres' });
     }
-    return next();
-};
-
-const validationAge = (req, res, next) => {
-    const { age } = req.body;
-    if (!age || age.length === 0) {
+    if (!age) {
         return res.status(400).json({ message: 'O campo "age" é obrigatório' });
     }
     if (parseInt(age, 10) < 18) {
@@ -83,11 +73,9 @@ const validatorWatchedAtAndRate = (req, res, next) => {
   };
 
 module.exports = {
-    validationEmail,
-    validationPassword,
+    validationEmailAndPassword,
     validationToken,
-    validationName,
-    validationAge,
+    validationNameAndAge,
     validationTalk,
     validatorWatchedAtAndRate,
 };

@@ -27,7 +27,7 @@ app.get('/talker/:id', rescue(async (req, res) => {
   return res.status(HTTP_OK_STATUS).json(talkerById);
 }));
 // requisito 3
-app.post('/login', validate.validationEmail, validate.validationPassword, (req, res) => {
+app.post('/login', validate.validationEmailAndPassword, (req, res) => {
   const token = crypto.randomBytes(8).toString('hex');
 
   res.status(200).json({ token });
@@ -35,8 +35,7 @@ app.post('/login', validate.validationEmail, validate.validationPassword, (req, 
 // requisito 4
 app.use(validate.validationToken);
 app.post('/talker',
-  validate.validationName,
-  validate.validationAge,
+  validate.validationNameAndAge,
   validate.validationTalk,
   validate.validatorWatchedAtAndRate,
   rescue(async (req, res) => {
@@ -57,8 +56,7 @@ app.post('/talker',
   }));
 // requisito 5
 app.put('/talker/:id',
-  validate.validationName,
-  validate.validationAge,
+  validate.validationNameAndAge,
   validate.validationTalk,
   validate.validatorWatchedAtAndRate,
   rescue(async (req, res) => {
