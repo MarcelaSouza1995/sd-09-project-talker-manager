@@ -11,7 +11,7 @@ const postTalker = async (req, res, _next) => {
     talk,
   };
   talkers.push(talkerRegistered);
-  await fs.writeFile('./talker.json', talkers);
+  await fs.writeFile('./talker.json', JSON.stringify(talkers));
   return res.status(201).json(talkerRegistered);
 };
 

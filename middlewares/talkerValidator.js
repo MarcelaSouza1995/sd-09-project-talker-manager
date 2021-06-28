@@ -4,7 +4,6 @@ const nameTest = (name) => {
   } if (name.length < 3) {
     return ({ code: 400, message: 'O "name" deve ter pelo menos 3 caracteres' });
   }
-  console.log('nome ok');
   return 'ok';
 };
 

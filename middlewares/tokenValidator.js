@@ -1,9 +1,9 @@
 const tokenValidator = (req, _res, next) => {
-  const { token } = req.headers;
-  if (!token) {
+  const { authorization } = req.headers;
+  if (!authorization) {
     return next({ code: 401, message: 'Token não encontrado' });
   }
-  if (token.length !== 16) {
+  if (authorization.length !== 16) {
     return next({ code: 401, message: 'Token inválido' });
   }
   return next();
