@@ -108,7 +108,7 @@ app.post('/talker',
       const allTalkers = await getTalkers();
       const newTalker = req.body;
       newTalker.id = allTalkers.length + 1;
-      allTalkers.push(newTalker);
+      allTalkers.splice(-1, 0, newTalker);
       writeTalkers('./talker.json', allTalkers);
       return res.status(201).send(newTalker);
     } catch (error) {
@@ -150,11 +150,11 @@ app.delete('/talker/:id',
       const idToChange = Number(req.params.id);
       const talkers = await getTalkers();
       const palestrant = await getTalkers().find((element) => element.id === idToChange);
-           let indexOfPalestrant = 'x';
+      let indexOfPalestrant = 'x';
       for (let i = 0; i < talkers.length; i += 1) {
         if (talkers[i].id === palestrant.id) {
           indexOfPalestrant = i;
-        }
+        } 
       }
       talkers.splice(indexOfPalestrant, 1);
       writeTalkers('./talker.json', talkers);
@@ -163,5 +163,5 @@ app.delete('/talker/:id',
       return res.status(200).send({ error });
     }
   });
-//  consultei o repositório de meu colega João Castaldi 
+//  consultei o repositório de meu colega João Castaldi
 //  https://github.com/tryber/sd-08-project-talker-manager/pull/34/files#diff-256422c877a0031a44f2168c442cddace08df1226b1e4ec5f529a0f869ea5b8aR19
