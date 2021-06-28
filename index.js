@@ -55,6 +55,32 @@ rescue(async (req, res) => {
   await talkerFunc.writeTalker(newRead);
   return res.status(201).json(newTalker);
 }));
+// requisito 5
+app.put('/talker/:id',
+validate.validationToken,
+validate.validationName,
+validate.validationAge,
+validate.validationTalk,
+validate.validatorWatchedAtAndRate,
+rescue(async (req, res) => {
+  const { id } = req.params;
+  const talkers = await talkerFunc.readTalker();
+    const { name, age, talk: { watchedAt, rate } } = req.body;
+    const newTalker = {
+      id: Number(id),
+      name,
+      age,
+      talk: {
+        watchedAt,
+        rate,
+      },
+    };
+  
+    talkers[id - 1] = newTalker;
+    await talkerFunc.writeTalker(talkers);
+  
+    return res.status(200).json(newTalker);
+}));
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
