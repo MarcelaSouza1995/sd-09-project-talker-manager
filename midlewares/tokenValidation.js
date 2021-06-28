@@ -1,5 +1,5 @@
 const tokenValidation = (req, res, next) => {
-  const { token } = req.headers;
+  const token = req.headers.authorization;
   
   if (token && token.length !== 16) res.status(401).json({ message: 'Token inválido' });
 

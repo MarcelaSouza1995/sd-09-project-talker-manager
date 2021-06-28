@@ -56,13 +56,13 @@ app.post('/login', loginMiddleware, (req, res) => {
   res.status(200).json({ token: req.token });
 });
 
-app.post('/talker', 
+app.post('/talker',
 tokenValidation,
-rateValidation,
 nameValidation,
-talkValidation,
-watchedAtValidation,
 ageValidation,
+talkValidation,
+rateValidation,
+watchedAtValidation,
 addPartcipant);
 
 app.listen(PORT, () => {
