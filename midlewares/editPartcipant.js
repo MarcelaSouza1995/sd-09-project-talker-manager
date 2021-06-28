@@ -1,8 +1,6 @@
 const fs = require('fs');
 
-const addPartcipant = (req, res) => {
-  console.log('teste');
-
+const editPartcipant = (req, res) => {
   const { id } = req.params;
   const { name, age, talk } = req.body;
   const data = JSON.parse(fs.readFileSync('talker.json', 'utf8'));
@@ -18,4 +16,4 @@ const addPartcipant = (req, res) => {
   res.status(200).json(editedParticipant);
 };
 
-module.exports = addPartcipant;
+module.exports = editPartcipant;

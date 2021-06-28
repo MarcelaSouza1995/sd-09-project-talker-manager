@@ -15,6 +15,7 @@ const missEmailJson = require('./messagesJSON/missEmail.json');
 const wrongEmailJson = require('./messagesJSON/wrongEmail.json');
 const wrongPasswordJson = require('./messagesJSON/wrongPassword.json');
 const missPasswordJson = require('./messagesJSON/missPassword.json');
+const deletePartcipant = require('./midlewares/deletePartcipant');
 
 const app = express();
 app.use(bodyParser.json());
@@ -74,6 +75,8 @@ talkValidation,
 watchedAtValidation,
 rateValidation,
 editPartcipant);
+
+app.delete('/talker/:id', tokenValidation, deletePartcipant);
 
 app.listen(PORT, () => {
   console.log('Online');
