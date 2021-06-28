@@ -22,6 +22,9 @@ const randonToken = (n) => {
 
 const { validation } = require('./loginValidation');
 
+const deletMsg = {
+  message: 'Pessoa palestrante deletada com sucesso',
+};
 const { tokenValidation,
   nameAgeValidation,
   talkObjValidation,
@@ -113,9 +116,9 @@ app.post('/talker',
     }
   }));
 
-  // req 5
+// req 5
 
-  app.put('/talker/:id',
+app.put('/talker/:id',
   tokenValidation,
   nameAgeValidation,
   talkObjValidation,
@@ -140,5 +143,25 @@ app.post('/talker',
     }
   });
 
+// req 6
+app.delete('/talker/:id',
+  tokenValidation, async (req, res) => {
+    try {
+      const idToChange = Number(req.params.id);
+      const talkers = await getTalkers();
+      const palestrant = await getTalkers().find((element) => element.id === idToChange);
+           let indexOfPalestrant = 'x';
+      for (let i = 0; i < talkers.length; i += 1) {
+        if (talkers[i].id === palestrant.id) {
+          indexOfPalestrant = i;
+        }
+      }
+      talkers.splice(indexOfPalestrant, 1);
+      writeTalkers('./talker.json', talkers);
+      return res.status(200).send(deletMsg);
+    } catch (error) {
+      return res.status(200).send({ error });
+    }
+  });
 //  consultei o repositório de meu colega João Castaldi 
 //  https://github.com/tryber/sd-08-project-talker-manager/pull/34/files#diff-256422c877a0031a44f2168c442cddace08df1226b1e4ec5f529a0f869ea5b8aR19
