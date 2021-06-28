@@ -8,7 +8,8 @@ app.use(bodyParser.json());
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', getMain);
-app.get('/talker', getTalkerById, getTalkers);
+app.get('/talker/:id', getTalkerById);
+app.get('/talker/', getTalkerById, getTalkers);
 
 app.use(error);
 app.listen(PORT, () => {
