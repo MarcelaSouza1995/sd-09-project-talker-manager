@@ -1,7 +1,15 @@
 const randomToken = require('random-token');
+const { tokenList } = require('../data/allTokens');
 
 function getLoginToken() {
-  return randomToken(16);
+  try {
+    const tokenCreated = randomToken(16);
+    tokenList.push(tokenCreated);
+    return tokenCreated;
+  } catch (error) {
+    error.message = 'Impossivel gerar Token';
+    return error;
+  }
 }
 
 function verifyEmail(email) {
