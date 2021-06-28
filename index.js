@@ -14,8 +14,7 @@ const NO_EMAIL = 'O campo \'email\' é obrigatório';
 const NOT_AN_EMAIL = 'O \'email\' deve ter o formato \'email@email.com\'';
 const NO_PASSWORD = 'O campo \'password\' é obrigatório';
 const PASSWORD_LENGTH = 'O \'password\' deve ter pelo menos 6 caracteres';
-// eslint-disable-next-line max-len
-const EMAIL_REGEX = /^[a-z0-9_-]+(?:\.[a-z0-9!_-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
+const EMAIL_REGEX = /^[a-z0-9_-]*@(?:[a-z0-9](?:[a-z0-9-]*)?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
 
 const getTalkers = async (request, _response, next) => {
   let talkersList = await fs.readFile('./talker.json', 'utf8');
