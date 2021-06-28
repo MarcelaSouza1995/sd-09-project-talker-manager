@@ -68,6 +68,7 @@ validate.validatorWatchedAtAndRate,
   const { id } = req.params;
   const { name, age, talk: { watchedAt, rate } } = req.body;
   const talkers = await talkerFunc.readTalker();
+  const indexTalker = talkers.findIndex((talker) => talker.id === id);
   const newTalker = {
     id: Number(id),
     name,
@@ -77,7 +78,7 @@ validate.validatorWatchedAtAndRate,
       rate,
     },
   };
-  talkers[id - 1] = newTalker;
+  talkers.splice(indexTalker, 1, newTalker);
   await talkerFunc.writeTalker(talkers);
   return res.status(200).json(newTalker);
 }));
