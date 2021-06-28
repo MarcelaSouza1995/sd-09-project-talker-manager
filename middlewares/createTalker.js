@@ -54,9 +54,11 @@ const createTalker = rescue(async (req, res) => {
 
   const buffTalkers = await fs.readFile('./talker.json');
   const talkers = JSON.parse(buffTalkers.toString('utf-8'));
-  talkers.push({ name, age, talk });
+  const id = talkers.length + 1;
+  console.log(id);
+  talkers.push({ id, name, age, talk });
   await fs.writeFile('./talker.json', JSON.stringify(talkers))
-    .then(() => res.status(201).json({ name, age, talk }));
+    .then(() => res.status(201).json({ id, name, age, talk }));
 });
 
 module.exports = createTalker;
