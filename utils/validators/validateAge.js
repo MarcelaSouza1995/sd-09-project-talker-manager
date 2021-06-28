@@ -8,7 +8,7 @@ const validateAge = (req, res, next) => {
   if (!regex.test(age)) {
     return next(res.status(400).json({ message: 'O campo "age" deverá ser um inteiro' }));
   }
-  if (parseInt(age, 10) < 18) {
+  if (age < 18) {
     return next(
       res
         .status(400)
