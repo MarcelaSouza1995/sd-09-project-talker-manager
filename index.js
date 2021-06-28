@@ -36,13 +36,16 @@ app.post('/talker',
   validateRate,
   middlewares.createTalker);
 
-app.post('/talker/:id', 
+app.put('/talker/:id', 
 validateToken,
 validateTalkerName,
 validateTalkerAge,
 validateTalk,
 validateWatchedAt,
-validateRate);
+validateRate,
+middlewares.editTalker);
+
+app.delete('/talker/:id', validateToken, middlewares.deleteTalker);
 
 app.use((err, _req, res, _next) => {
   res.status(500).send(err);
