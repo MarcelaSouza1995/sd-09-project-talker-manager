@@ -10,10 +10,10 @@ const NOT_FOUND = 404;
 const BAD_REQUEST = 400;
 const PORT = '3000';
 const NO_TALKER = 'Pessoa palestrante não encontrada';
-const NO_EMAIL = 'O campo \'email\' é obrigatório';
-const NOT_AN_EMAIL = 'O \'email\' deve ter o formato \'email@email.com\'';
-const NO_PASSWORD = 'O campo \'password\' é obrigatório';
-const PASSWORD_LENGTH = 'O \'password\' deve ter pelo menos 6 caracteres';
+const NO_EMAIL = 'O campo "email" é obrigatório';
+const NOT_AN_EMAIL = 'O "email" deve ter o formato "email@email.com"';
+const NO_PASSWORD = 'O campo "password" é obrigatório';
+const PASSWORD_LENGTH = 'O "password" deve ter pelo menos 6 caracteres';
 const EMAIL_REGEX = /^[a-z0-9_-]*@(?:[a-z0-9](?:[a-z0-9-]*)?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
 
 const getTalkers = async (request, _response, next) => {
