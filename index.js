@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-
+// const querystring = require('querystring');
 const app = express();
 app.use(bodyParser.json());
 
@@ -25,10 +25,11 @@ const { validation } = require('./loginValidation');
 const deletMsg = {
   message: 'Pessoa palestrante deletada com sucesso',
 };
+
 const { tokenValidation,
   nameAgeValidation,
   talkObjValidation,
-  talkComponentsValidation } = require('./addTalkerValidation');
+  talkComponentsValidation } = require('./modifierValidations');
 
 const writeTalkers = (json, writeFile) => fs.writeFileSync(json, JSON.stringify(writeFile));
 // https://nodejs.org/api/fs.html#fs_fs_writefilesync_file_data_options
@@ -163,5 +164,23 @@ app.delete('/talker/:id',
       return res.status(200).send({ error });
     }
   });
+
+// req 7
+app.get('/talker/search?q=searchTerm', async (req, res) => {
+  try {
+    const talkers = await getTalkers();
+    const { query } = req;
+    const arr = [];
+    for (let i = 0; i < talkers.length; i += 1) {
+      if (JSON.stringify(talkers[i]).includes(query)) {
+        arr.push(talkers[i]);
+      }
+    }
+    return res.status(HTTP_OK_STATUS).send(arr);
+  } catch (error) {
+    return res.status(HTTP_OK_STATUS).send([]);
+    // caso não encontre ninguém, retorna o status 200 com um array vazio.
+  }
+});
 //  consultei o repositório de meu colega João Castaldi
 //  https://github.com/tryber/sd-08-project-talker-manager/pull/34/files#diff-256422c877a0031a44f2168c442cddace08df1226b1e4ec5f529a0f869ea5b8aR19
