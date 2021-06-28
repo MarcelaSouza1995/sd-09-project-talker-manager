@@ -13,6 +13,23 @@ router.get('/', async (_req, res, _next) => {
   return res.status(200).json(read);
 });
 
+router.get('/search', middlewares.validatorToken, rescue(async (req, res, _next) => {
+  const searchTerm = req.query.q;
+  const read = await fs.readFile(file, 'utf8').then((result) => JSON.parse(result));
+
+  if (!searchTerm) {
+    return res.status(200).json(read);
+  }
+
+  const filterTalker = read.filter((talker) => talker.name.includes(searchTerm));
+
+  if (filterTalker) {
+    return res.status(200).json(filterTalker);
+  }
+
+  return res.status(200).json([]);
+}));
+
 router.get('/:id', async (req, res, _next) => {
   const { id } = req.params;
   const read = await fs.readFile(file, 'utf8').then((result) => JSON.parse(result));
@@ -81,7 +98,6 @@ router.delete('/:id', rescue(async (req, res, _next) => {
   const read = await fs.readFile(file, 'utf8').then((result) => JSON.parse(result));
 
   const newRead = read.filter((talker) => talker.id !== Number(id));
-  console.log(newRead);
 
   await fs.writeFile(file, JSON.stringify(newRead));
 
