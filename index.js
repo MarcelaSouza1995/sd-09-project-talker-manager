@@ -24,7 +24,7 @@ app.get('/', (_request, response) => {
 
 app.get('/talker/search',
 validate.validateToken,
-async (req, res, next) => {
+async (req, res, _next) => {
   const searchTerm = req.query.q;
   console.log(req.query.q);
   const data = await getAllTalkers();
@@ -47,7 +47,6 @@ app.get('/talker/:id', async (req, res, next) => {
   if (talker.status) return next(talker);
   return res.status(200).json(talker);
 });
-
 
 app.post('/login', validate.validateEmailAndPassword, (req, res, _next) => {
   const token = crypto.randomBytes(8).toString('hex');
