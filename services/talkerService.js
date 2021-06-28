@@ -1,5 +1,5 @@
 const fs = require('fs').promises;
-const { tokenList, talkerList } = require('../data/data');
+const { tokenList } = require('../data/data');
 
 async function getAllTalkers() {
   try {
@@ -77,12 +77,17 @@ function validateTalkerObj(req) {
   }
 }
 
-function saveOneTalker(req) {
+async function saveOneTalker(req) {
   try {
+    const data = await fs.readFile('./talker.json');
+    const parsedData = JSON.parse(data);
+
     const { age, name, talk } = req.body;
-    const id = talkerList.length + 1;
+    const id = parsedData.length + 1;
     const talkerObject = { id, name, age, talk };
-    talkerList.push(talkerObject);
+    parsedData.push(talkerObject);
+
+    fs.writeFile('./talker.json', JSON.stringify(parsedData));
     return talkerObject;
   } catch (error) {
     return { status: 500, message: error.message };
