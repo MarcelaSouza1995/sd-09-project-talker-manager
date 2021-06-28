@@ -107,37 +107,38 @@ app.post('/talker',
       newTalker.id = allTalkers.length + 1;
       allTalkers.push(newTalker);
       writeTalkers('./talker.json', allTalkers);
-      console.log(newTalker);
       return res.status(201).send(newTalker);
     } catch (error) {
       return res.status(201).send({ error });
     }
   }));
 
-// req 5
+  // req 5
 
-app.put('/talker/:id',
+  app.put('/talker/:id',
   tokenValidation,
   nameAgeValidation,
   talkObjValidation,
   talkComponentsValidation, async (req, res) => {
     try {
-      const idParams = Number(req.params.id);
+      const idToChange = Number(req.params.id);
       const talkers = await getTalkers();
-      const palestrant = await getTalkers().find((element) => element.id === idParams);
+      const palestrant = await getTalkers().find((element) => element.id === idToChange);
+      const changed = req.body;
       let indexOfPalestrant = 'x';
       for (let i = 0; i < talkers.length; i += 1) {
         if (talkers[i].id === palestrant.id) {
           indexOfPalestrant = i;
         }
       }
-      talkers.splice(indexOfPalestrant, 1, palestrant);
+      changed.id = talkers.length;
+      talkers.splice(indexOfPalestrant, 1, changed);
       writeTalkers('./talker.json', talkers);
-      return res.status(200).send(palestrant);
+      return res.status(200).send(changed);
     } catch (error) {
       return res.status(500).send({ error });
     }
   });
 
-   // consultei o repositório de meu colega João Castaldi 
-    // https://github.com/tryber/sd-08-project-talker-manager/pull/34/files#diff-256422c877a0031a44f2168c442cddace08df1226b1e4ec5f529a0f869ea5b8aR19
+//  consultei o repositório de meu colega João Castaldi 
+//  https://github.com/tryber/sd-08-project-talker-manager/pull/34/files#diff-256422c877a0031a44f2168c442cddace08df1226b1e4ec5f529a0f869ea5b8aR19
