@@ -54,6 +54,15 @@ const editTalker = async (req, res) => {
   return res.status(OK_STATUS).json(newTalker);
 };
 
+const deleteTalker = async (req, res) => {
+  const { id } = req.params;
+  const talkersList = await readFile(TALKERS_FILE);
+  const newTalkersList = talkersList.filter((talker) => talker.id !== parseInt(id, 10));
+  await writeFile(TALKERS_FILE, JSON.stringify(newTalkersList));
+
+  return res.status(OK_STATUS).json({ message: 'Pessoa palestrante deletada com sucesso' });
+};
+
 const validateToken = (req, res, next) => {
   const { authorization } = req.headers;
 
@@ -145,12 +154,13 @@ const validateRate = (req, res, next) => {
 module.exports = {
   getAllTalkers,
   getTalkerById,
+  addTalker,
+  editTalker,
+  deleteTalker,
   validateToken,
   validateName,
   validateAge,
   validateTalk,
   validateWatchedAt,
   validateRate,
-  addTalker,
-  editTalker,
 };

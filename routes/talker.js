@@ -29,4 +29,10 @@ talkerRouter.put(
   talkerController.editTalker,
 );
 
+talkerRouter.delete(
+  '/:id',
+  talkerController.validateToken,
+  talkerController.deleteTalker,
+);
+
 module.exports = talkerRouter;
