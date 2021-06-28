@@ -1,10 +1,8 @@
-const fs = require('fs').promises;
+const { getAllTalkers } = require('../funcoes/readFileTalkers');
 
 const HTTP_OK_STATUS = 200;
 
-module.exports = (_request, response, _next) => {
-  fs.readFile('./talker.json', 'utf-8')
-  .then((fileTalker) => JSON.parse(fileTalker))
-    .then((res) => response.status(HTTP_OK_STATUS).json(res))
-      .catch(() => response.status(HTTP_OK_STATUS).json([])); 
-};
+module.exports = (_request, response, _next) => 
+   getAllTalkers().then((talkers) => 
+    response.status(HTTP_OK_STATUS).json(talkers))
+    .catch((err) => response.status(HTTP_OK_STATUS).json(err));

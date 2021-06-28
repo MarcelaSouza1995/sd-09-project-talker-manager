@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { getMain, getTalkers } = require('./middlewares');
+const { getMain, getTalkers, getTalkerById, error } = require('./middlewares');
  
 const PORT = '3000';
 const app = express();
@@ -8,8 +8,9 @@ app.use(bodyParser.json());
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', getMain);
-app.get('/talker', getTalkers);
+app.get('/talker', getTalkerById, getTalkers);
 
+app.use(error);
 app.listen(PORT, () => {
   console.log('Online');
 });
