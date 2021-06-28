@@ -1,7 +1,8 @@
+const { TOKEN } = require('../util');
+
 const tokenGenerator = (req, res, next) => {
   try {
-    const token = '7mqaVRXJSp886CGr';
-    return res.status(200).json({ token });
+    return res.status(200).json({ token: TOKEN });
   } catch (error) {
     next(error);
   }

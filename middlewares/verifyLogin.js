@@ -1,4 +1,4 @@
-const { emailValidator, passwordValidator } = require('../util/validationFunctions');
+const { emailValidator, passwordValidator } = require('../util');
 
 const loginValidator = (req, res, next) => {
   const { email, password } = req.body;

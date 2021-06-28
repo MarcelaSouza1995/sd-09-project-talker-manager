@@ -1,8 +1,8 @@
 const express = require('express');
 
 const Router = express.Router();
-const { loginValidator, tokenGenerator } = require('../middlewares');
+const { verifyLogin, tokenGenerator } = require('../middlewares');
 
-Router.post('/', loginValidator, tokenGenerator);
+Router.post('/', verifyLogin, tokenGenerator);
 
 module.exports = Router;
