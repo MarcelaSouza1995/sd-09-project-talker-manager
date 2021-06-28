@@ -21,8 +21,8 @@ app.get('/talker/search', validate.validationToken, rescue(async (req, res, _nex
   const { q } = req.query;
   const talkers = await talkerFunc.readTalker();
   if (!q || q.length === 0) return res.status(HTTP_OK_STATUS).json(talkers);
-  const newTalker = talkers.filter((talker) => talker.name.includes(q));
-  return res.status(HTTP_OK_STATUS).json({ newTalker });
+  const newTalkers = talkers.filter((talker) => talker.name.includes(q));
+  return res.status(HTTP_OK_STATUS).json(newTalkers);
 }));
 
 // requisito 1
