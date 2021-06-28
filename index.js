@@ -15,7 +15,7 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-app.post('/login', middleware.validations, middleware.login);
+app.post('/login', middleware.emailValidation, middleware.passwordValidation, middleware.login);
 
 app.use('/talker', talkerRouter);
 
