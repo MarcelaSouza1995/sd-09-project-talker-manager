@@ -14,7 +14,7 @@ function getLoginToken() {
 
 function verifyEmail(email) {
   const error1 = 'O campo "email" é obrigatório';
-  const error2 = 'O "email" deve ter o formato "email@email.com';
+  const error2 = 'O "email" deve ter o formato "email@email.com"';
   const validRegexEmail = /^[\w.]+@[a-z]+\.\w{2,3}$/g;
   if (!email) return error1;
   if (!validRegexEmail.test(email)) return error2;

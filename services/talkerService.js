@@ -58,10 +58,13 @@ function verifyTalkObj(watchedAt, rate) {
 }
 
 function verifyTalk(talk) {
-  const { watchedAt, rate } = talk;
-  if (watchedAt && rate) {
-    const invalidObj = verifyTalkObj(watchedAt, rate);
-    return invalidObj;
+  if (talk) {
+    console.log(talk);
+    const { watchedAt, rate } = talk;
+    if (watchedAt && rate) {
+      const invalidObj = verifyTalkObj(watchedAt, rate);
+      return invalidObj;
+    }
   }
   return new Error('O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios');
 }
