@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const talkers = require('./routes/talker');
+const talker = require('./routes/talker');
 const talkersId = require('./routes/talkersId');
 const login = require('./routes/login');
 
@@ -15,7 +15,7 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-app.use('/', talkers);
+app.use('/', talker);
 
 app.use('/', talkersId);
 
