@@ -16,11 +16,30 @@ async function talkerList() {
   return data;
 }
 
+async function talkerById(id) {
+  const result = await readFiles();
+  const data = result.find((element) => element.id === Number(id));
+  console.log(data);
+  return data;
+}
+
 const endpointTalker = rescue(async (_req, res, _next) => {
   const result = await talkerList();
   res.status(200).json(result);
 });
 
+const endpointTalkerById = rescue(async (req, res, _next) => {
+  const { id } = req.params;
+  const result = await talkerById(id);
+  if (!result) {
+    res.status(404).json({
+      message: 'Pessoa palestrante não encontrada',
+    });
+  }
+  return res.status(200).json(result);
+});
+
 module.exports = { 
   endpointTalker,
+  endpointTalkerById,
 };

@@ -6,5 +6,6 @@ const middlewares = require('../middlewares/talker');
 const router = express.Router();
 
 router.get('/', middlewares.endpointTalker);
+router.get('/:id', middlewares.endpointTalkerById);
 
 module.exports = router;
