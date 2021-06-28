@@ -3,8 +3,20 @@ const express = require('express');
 const router = express.Router();
 const HTTP_OK_STATUS = 200;
 
-const { readFile, addNewTalker, updateTalker, deleteTalker } = require('../service');
+const {
+  readFile,
+  addNewTalker,
+  updateTalker,
+  deleteTalker,
+  searchTalker,
+} = require('../service');
 const { validateToken, validateName, validateAge, validateTalk } = require('../util');
+
+router.get(
+  '/search',
+  validateToken,
+  searchTalker,
+);
 
 router.get('/:id', async (request, response) => {
   const { id } = request.params;

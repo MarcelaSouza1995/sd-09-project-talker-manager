@@ -3,6 +3,7 @@ const addNewTalker = require('./addNewTalker');
 const writeFile = require('./writeFile');
 const updateTalker = require('./updateTalker');
 const deleteTalker = require('./deleteTalker');
+const searchTalker = require('./searchTalker');
 
 module.exports = {
   readFile,
@@ -10,4 +11,5 @@ module.exports = {
   writeFile,
   updateTalker,
   deleteTalker,
+  searchTalker,
 };
