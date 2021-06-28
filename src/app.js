@@ -1,5 +1,7 @@
 const router = require('express').Router();
+const loginValidator = require('./loginValidator');
 const talkerRepository = require('./talkerRepository');
+const generetaToken = require('./utils');
 
 router.get('/talker', (_req, res) => {
     const talkers = talkerRepository.findAll();
@@ -13,6 +15,11 @@ router.get('/talker/:id', (req, res) => {
         return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
     }
     return res.status(200).json(talker);
+});
+
+router.post('/login', loginValidator, (req, res) => {
+    const token = generetaToken();
+    res.status(200).json({ token });
 });
 
 module.exports = router;
