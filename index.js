@@ -22,7 +22,7 @@ app.get('/talker', (_req, res) => {
       if (dataJson.length === 0) return res.status(200).json([]);
       return res.status(200).json(dataJson);
     }).catch((err) => res.status(404).json({ message: err }));
-});
+}); //
 
 app.listen(PORT, () => {
   console.log('Online');
