@@ -14,7 +14,6 @@ function ageValidator(age) {
 function watchedAtValidator(watchedAt) {
   let message = 'ok';
   const dateRegex = new RegExp(/^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/);
-  console.log(watchedAt);
   if (!dateRegex.test(watchedAt)) message = 'O campo "watchedAt" deve ter o formato "dd/mm/aaaa"';
   return message;
 }
