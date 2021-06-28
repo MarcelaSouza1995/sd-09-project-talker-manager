@@ -1,7 +1,5 @@
-const crypto = require('crypto');
-
 function generetaToken() {
-    return crypto.randomBytes(16).toString('utf-8');
+    return Date.now().toString() + Math.random().toPrecision(3).slice(2);
 }
 
 module.exports = generetaToken;
