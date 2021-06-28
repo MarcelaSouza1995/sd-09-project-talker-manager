@@ -5,7 +5,9 @@ const updateTalker = rescue(async (req, res) => {
   const { id } = req.params;
   const { name, age, talk } = req.body;
 
-  const newTalker = { id, name, age, talk };
+  const numberId = Number(id);
+
+  const newTalker = { id: numberId, name, age, talk };
 
   const buffTalkers = await fs.readFile('./talker.json');
   const talkers = JSON.parse(buffTalkers.toString('utf-8'));
