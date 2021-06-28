@@ -69,9 +69,9 @@ function verifyTalk(talk) {
 function validateTalkerObj(req) {
   try {
     const { age, name, talk } = req.body;
-    if (verifyname(name)) { return verifyname(name); }
-    if (verifyAge(age)) { return verifyAge(age); }
-    if (verifyTalk(talk)) { return verifyTalk(talk); }
+    if (verifyname(name)) { throw verifyname(name); }
+    if (verifyAge(age)) { throw verifyAge(age); }
+    if (verifyTalk(talk)) { throw verifyTalk(talk); }
   } catch (error) {
     return { status: 400, message: error.message };
   }
