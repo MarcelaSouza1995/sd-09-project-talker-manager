@@ -26,11 +26,11 @@ const { tokenValidation,
   nameAgeValidation,
   talkObjValidation,
   talkComponentsValidation } = require('./addTalkerValidation');
-  
-  const writeTalkers = (json, writeFile) => fs.writeFileSync(json, JSON.stringify(writeFile));
-  // https://nodejs.org/api/fs.html#fs_fs_writefilesync_file_data_options
-  const getTalkers = () => JSON.parse(fs.readFileSync('./talker.json', 'utf8'));
-  // https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options
+
+const writeTalkers = (json, writeFile) => fs.writeFileSync(json, JSON.stringify(writeFile));
+// https://nodejs.org/api/fs.html#fs_fs_writefilesync_file_data_options
+const getTalkers = () => JSON.parse(fs.readFileSync('./talker.json', 'utf8'));
+// https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
@@ -49,7 +49,7 @@ app.get('/talker', async (_req, res) => {
     return res.status(HTTP_OK_STATUS).send([]);
     // caso não encontre ninguém, retorna o status 200 com um array vazio.
   }
-}); 
+});
 
 // Req 2
 
@@ -60,7 +60,7 @@ app.get('/talker/:id', async (req, res) => {
     const palestrant = await getTalkers().find((element) => element.id === idParams);
     // verifica se o id encontrado é existente dentro de talker.json
     if (!palestrant) {
-    return res.status(404).send({
+      return res.status(404).send({
         message: 'Pessoa palestrante não encontrada',
       });
     }
@@ -91,8 +91,9 @@ app.post('/login',
 // ou envia-se um formulário web completo. Em contraste o método de requisição GET do HTTP foi 
 // projetado para recuperar informações do servidor.
 // https://pt.wikipedia.org/wiki/POST_(HTTP)#:~:text=Em%20computa%C3%A7%C3%A3o%2C%20POST%20%C3%A9%20um,usado%20na%20World%20Wide%20Web.&text=Ele%20%C3%A9%20normalmente%20usado%20quando,para%20recuperar%20informa%C3%A7%C3%B5es%20do%20servidor.
-  
-  app.post('/talker',
+
+//  req 4 
+app.post('/talker',
   tokenValidation,
   nameAgeValidation,
   talkObjValidation,
@@ -113,5 +114,30 @@ app.post('/login',
     }
   }));
 
-    // consultei o repositório de meu colega João Castaldi 
+// req 5
+
+app.put('/talker/:id',
+  tokenValidation,
+  nameAgeValidation,
+  talkObjValidation,
+  talkComponentsValidation, async (req, res) => {
+    try {
+      const idParams = Number(req.params.id);
+      const talkers = await getTalkers();
+      const palestrant = await getTalkers().find((element) => element.id === idParams);
+      let indexOfPalestrant = 'x';
+      for (let i = 0; i < talkers.length; i += 1) {
+        if (talkers[i].id === palestrant.id) {
+          indexOfPalestrant = i;
+        }
+      }
+      talkers.splice(indexOfPalestrant, 1, palestrant);
+      writeTalkers('./talker.json', talkers);
+      return res.status(200).send(palestrant);
+    } catch (error) {
+      return res.status(500).send({ error });
+    }
+  });
+
+   // consultei o repositório de meu colega João Castaldi 
     // https://github.com/tryber/sd-08-project-talker-manager/pull/34/files#diff-256422c877a0031a44f2168c442cddace08df1226b1e4ec5f529a0f869ea5b8aR19
