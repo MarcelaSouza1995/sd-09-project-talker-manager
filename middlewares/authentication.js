@@ -1,5 +1,4 @@
-const Rand = () => Math.random(0).toString(36).substr(2);
-const generateToken = (length) => (Rand() + Rand() + Rand() + Rand()).substr(0, length);
+const token = require('./tokenGeneration');
 
 function validEmail(email) {
   const emailRegex = /\S+@\S+\.\S+/;
@@ -12,7 +11,6 @@ function validPassword(password) {
 }
 
 const authentication = (request, response) => {
-  const token = generateToken(16);
   const { email, password } = request.body;
   if (!email) {
     return response.status(400).json({ message: 'O campo "email" é obrigatório' });
