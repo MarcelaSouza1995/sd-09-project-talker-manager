@@ -34,8 +34,15 @@ app.post('/talker',
   validateTalk,
   validateWatchedAt,
   validateRate,
-  
   middlewares.createTalker);
+
+app.post('/talker/:id', 
+validateToken,
+validateTalkerName,
+validateTalkerAge,
+validateTalk,
+validateWatchedAt,
+validateRate);
 
 app.use((err, _req, res, _next) => {
   res.status(500).send(err);

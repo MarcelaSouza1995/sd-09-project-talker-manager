@@ -19,8 +19,8 @@ const createTalker = async (req, res) => {
     };
     talkers.push(insertTalker);
 
-  writeFiles(file, insertTalker);
-  return res.status(201).json(talkers);
+  writeFiles(file, talkers);
+  return res.status(201).json(insertTalker);
 };
 
 module.exports = createTalker;
