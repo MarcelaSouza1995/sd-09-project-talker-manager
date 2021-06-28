@@ -6,6 +6,7 @@ const getTalkerById = require('./middlewares/requisito02');
 const loginValidate = require('./middlewares/requisito03');
 const createTalker = require('./middlewares/requisito04');
 const editTalker = require('./middlewares/requisito05');
+const deleteTalker = require('./middlewares/requisito06');
 
 const {
   validateAuthorization,
@@ -33,13 +34,16 @@ app.get('/talker/:id', getTalkerById);
 
 app.post('/login', loginValidate);
 
+app.use(validateAuthorization);
+
+app.delete('/talker/:id', deleteTalker);
+
 app.use(
-  validateAuthorization,
   validateName,
   validateAge,
   validateTalkWatchedAt,
   validateTalkRate,
-);
+);  
 
 app.post('/talker', createTalker);
 
