@@ -1,4 +1,3 @@
-// const { v4 } = require('uuid');
 const crypto = require('crypto');
 
 function generateToken() {
@@ -31,8 +30,6 @@ const validPassword = (password) => {
 };
 
 const login = (req, res, next) => {
-    // const myuuid = v4();
-    // const token = myuuid.slice(16);
     const token = generateToken();
 
     const { email, password } = req.body;
