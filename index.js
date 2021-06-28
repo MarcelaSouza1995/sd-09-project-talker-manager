@@ -7,6 +7,7 @@ const {
   saveNewTalker,
   editTalker,
   deleteTalker,
+  // getTalkerBySearchTerm,
 } = require('./services');
 const validate = require('./middlewares/index');
 
@@ -21,6 +22,17 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
+app.get('/talker/search',
+validate.validateToken,
+async (req, res, next) => {
+  const searchTerm = req.query.q;
+  console.log(req.query.q);
+  const data = await getAllTalkers();
+  if (!searchTerm || searchTerm === '') return res.status(200).json(data);
+  const talkers = data.filter((person) => person.name.includes(searchTerm));
+  return res.status(200).json(talkers);
+});
+
 app.get('/talker', async (_req, res, next) => {
   const data = await getAllTalkers();
   if (data.status) {
@@ -30,12 +42,12 @@ app.get('/talker', async (_req, res, next) => {
 });
 
 app.get('/talker/:id', async (req, res, next) => {
-  console.log('lendo id de palestrantes');
   const talkerId = req.params.id;
   const talker = await getTalkerById(talkerId);
   if (talker.status) return next(talker);
   return res.status(200).json(talker);
 });
+
 
 app.post('/login', validate.validateEmailAndPassword, (req, res, _next) => {
   const token = crypto.randomBytes(8).toString('hex');
@@ -72,7 +84,6 @@ app.delete('/talker/:id',
 validate.validateToken,
 async (req, res, next) => {
   const talkerId = req.params.id;
-  console.log(typeof talkerId, typeof Number(talkerId));
   const newData = await deleteTalker(Number(talkerId));
   if (newData.status) return next(newData);
   return res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });

@@ -28,6 +28,24 @@ async function getTalkerById(id) {
   }
 }
 
+// async function getTalkerBySearchTerm(searchTerm) {
+//   try {
+//     const data = await getAllTalkers();
+//     if (searchTerm === undefined || searchTerm === '') return data;
+//     const foundTalker = data.filter((person) => {
+//       const regex = new RegExp(searchTerm, 'g');
+//       return person.name.match(regex);
+//     });
+//     return foundTalker;           
+//   } catch (error) {
+//     const errorObj = {
+//       status: 404,
+//       message: 'Pessoa palestrante não encontrada',
+//     };
+//     return errorObj;
+//   }
+// }
+
 async function saveNewTalker(talker) {
   try {
     const data = await getAllTalkers();
@@ -69,10 +87,8 @@ async function editTalker(talkerId, talkerInfo) {
 async function deleteTalker(id) {
   try {
     const data = await getAllTalkers();
-    console.log(data);
     if (!data.some((person) => person.id === id)) throw new Error();
     const newData = data.filter((person) => person.id !== id);
-    console.log(newData);
     await fs.writeFile('./talker.json', JSON.stringify(newData));
     return newData;
   } catch (error) {
@@ -87,4 +103,5 @@ module.exports = {
   saveNewTalker,
   editTalker,
   deleteTalker,
+  // getTalkerBySearchTerm,
 };
