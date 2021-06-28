@@ -8,6 +8,8 @@ app.use(bodyParser.json());
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
+app.get('/talker/search', middlewares.tokenValidator, middlewares.getTalkersSearch);
+
 app.get('/talker', middlewares.getTalkers);
 
 app.get('/talker/:id', middlewares.talkerId);

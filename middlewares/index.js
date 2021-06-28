@@ -6,6 +6,7 @@ const talkerValidator = require('./talkerValidator');
 const postTalker = require('./postTalker');
 const putTalker = require('./putTalker');
 const deleteTalker = require('./deleteTalker');
+const getTalkersSearch = require('./getTalkersSearch');
 
 module.exports = {
   getTalkers,
@@ -16,4 +17,5 @@ module.exports = {
   talkerValidator,
   putTalker,
   deleteTalker,
+  getTalkersSearch,
 };
