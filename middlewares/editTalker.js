@@ -6,7 +6,8 @@ const editTalker = async (req, res) => {
   const talkers = await readFiles();
   const { name, age, talk: { watchedAt, rate } } = req.body;
   const { id } = req.params;
-  const newTalkers = talkers.filter((talker) => talker.id !== Number(id));
+  const filteredTalkers = talkers.filter((talker) => talker.id !== Number(id));
+  
   const insertTalker = {
     id,
     name,
@@ -16,8 +17,9 @@ const editTalker = async (req, res) => {
       rate,
     },
   };
-  newTalkers.push(insertTalker);
-  writeFiles(file, newTalkers);
+
+  filteredTalkers.push(insertTalker);
+  writeFiles(file, filteredTalkers);
   return res.status(200).json(insertTalker);
 };
 
