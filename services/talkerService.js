@@ -50,12 +50,11 @@ function verifyAge(age) {
 
 function verifyTalkObj(watchedAt, rate) {
   // formula regex obtida/editada; ref:"https://stackoverflow.com/questions/6177975/how-to-validate-date-with-format-mm-dd-yyyy-in-javascript"
-  const rateNumber = Number(rate);
   const dateRegex = /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/[0-9]{4}$/;
   if (!(dateRegex.test(watchedAt))) {
     return new Error('O campo "watchedAt" deve ter o formato "dd/mm/aaaa"');
   }
-  if (rateNumber < 1 || rateNumber > 5) {
+  if (rate < 1 || rate > 5) {
     return new Error('O campo "rate" deve ser um inteiro de 1 à 5');
   }
 }
@@ -63,7 +62,7 @@ function verifyTalkObj(watchedAt, rate) {
 function verifyTalk(talk) {
   if (talk) {
     const { watchedAt, rate } = talk;
-    if (watchedAt && rate) {
+    if (watchedAt && (rate !== undefined)) {
       const invalidObj = verifyTalkObj(watchedAt, rate);
       return invalidObj;
     }
@@ -102,10 +101,10 @@ async function saveOneTalker(req) {
 async function updateOneTalker(req) {
   try {
     const { id } = req.params;
+    const { age, name, talk } = req.body;
     const numberId = Number(id);
     const data = await fs.readFile(pathTalkerFile);
     const parsedData = JSON.parse(data);
-    const { age, name, talk } = req.body;
     const talkerObject = { id: numberId, name, age, talk };
     if (!parsedData.some((talker) => talker.id === numberId)) { throw new Error('Id inexistente'); }
     const talkerData = parsedData.map((talker) => {
