@@ -100,7 +100,7 @@ const talkRateValidation = (req, res, next) => {
 
 const talkValidation = (req, res, next) => {
   const { talk } = req.body;
-  if (!talk || !talk.watchedAt || !talk.rate) {
+  if (!talk || !talk.watchedAt || talk.rate === undefined) {
     return res
       .status(400)
       .send({
