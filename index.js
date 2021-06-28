@@ -10,6 +10,7 @@ const nameValidation = require('./midlewares/nameValidation');
 const talkValidation = require('./midlewares/talkValidation');
 const watchedAtValidation = require('./midlewares/watchedAtValidation');
 const addPartcipant = require('./midlewares/addPartcipant');
+const editPartcipant = require('./midlewares/editPartcipant');
 const missEmailJson = require('./messagesJSON/missEmail.json');
 const wrongEmailJson = require('./messagesJSON/wrongEmail.json');
 const wrongPasswordJson = require('./messagesJSON/wrongPassword.json');
@@ -61,9 +62,18 @@ tokenValidation,
 nameValidation,
 ageValidation,
 talkValidation,
-rateValidation,
 watchedAtValidation,
+rateValidation,
 addPartcipant);
+
+app.put('/talker/:id',
+tokenValidation,
+nameValidation,
+ageValidation,
+talkValidation,
+watchedAtValidation,
+rateValidation,
+editPartcipant);
 
 app.listen(PORT, () => {
   console.log('Online');
