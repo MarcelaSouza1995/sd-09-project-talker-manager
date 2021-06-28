@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const fs = require('fs').promises;
+// const fs = require('fs').promises;
 const rescue = require('express-rescue');
 const crypto = require('crypto');
 const talkerFunc = require('./talkerFunc');
