@@ -106,15 +106,28 @@ async function updateOneTalker(req) {
     const data = await fs.readFile(pathTalkerFile);
     const parsedData = JSON.parse(data);
     const { age, name, talk } = req.body;
-    const talkerObject = { id, name, age, talk };
-    if (!parsedData
-      .some((talker) => Number(talker.id) === numberId)) { throw new Error('Id inexistente'); }
+    const talkerObject = { id: numberId, name, age, talk };
+    if (!parsedData.some((talker) => talker.id === numberId)) { throw new Error('Id inexistente'); }
     const talkerData = parsedData.map((talker) => {
-      if (Number(talker.id) === numberId) { return talkerObject; }
+      if (talker.id === numberId) { return talkerObject; }
       return talker;
     });
-    fs.writeFile(pathTalkerFile, JSON.stringify(talkerData));
+    await fs.writeFile(pathTalkerFile, JSON.stringify(talkerData));
     return talkerObject;
+  } catch (error) {
+    return { status: 500, message: error.message };
+  }
+}
+
+async function deleteOneTalker(req) {
+  try {
+    const { id } = req.params;
+    const numberId = Number(id);
+    const data = await fs.readFile(pathTalkerFile);
+    const parsedData = JSON.parse(data);
+    if (!parsedData.some((talker) => talker.id === numberId)) { throw new Error('Id inexistente'); }
+    const dataFiltered = parsedData.filter((talker) => talker.id !== numberId);
+    await fs.writeFile(pathTalkerFile, JSON.stringify(dataFiltered));
   } catch (error) {
     return { status: 500, message: error.message };
   }
@@ -127,4 +140,5 @@ module.exports = {
   validateTalkerObj,
   saveOneTalker,
   updateOneTalker,
+  deleteOneTalker,
 };

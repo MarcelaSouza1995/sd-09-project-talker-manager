@@ -26,6 +26,7 @@ app.put('/talker/:id', [
   middlewares.mdwTalkerObjVerifier,
   middlewares.mdwUpdateOneTalker,
 ]);
+app.delete('/talker/:id', [middlewares.mdwTalkerTokenVerifier, middlewares.mdwTalkerDelete]);
 
 app.use(middlewares.mdwGenericError);
 
