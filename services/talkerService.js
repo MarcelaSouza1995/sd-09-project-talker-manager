@@ -1,9 +1,11 @@
 const fs = require('fs').promises;
 const { tokenList } = require('../data/data');
 
+const pathTalkerFile = './talker.json';
+
 async function getAllTalkers() {
   try {
-    const data = await fs.readFile('./talker.json');
+    const data = await fs.readFile(pathTalkerFile);
     const parsedData = JSON.parse(data);
     return parsedData;
   } catch (error) {
@@ -60,7 +62,6 @@ function verifyTalkObj(watchedAt, rate) {
 
 function verifyTalk(talk) {
   if (talk) {
-    console.log(talk);
     const { watchedAt, rate } = talk;
     if (watchedAt && rate) {
       const invalidObj = verifyTalkObj(watchedAt, rate);
@@ -83,7 +84,7 @@ function validateTalkerObj(req) {
 
 async function saveOneTalker(req) {
   try {
-    const data = await fs.readFile('./talker.json');
+    const data = await fs.readFile(pathTalkerFile);
     const parsedData = JSON.parse(data);
 
     const { age, name, talk } = req.body;
@@ -91,11 +92,39 @@ async function saveOneTalker(req) {
     const talkerObject = { id, name, age, talk };
     parsedData.push(talkerObject);
 
-    fs.writeFile('./talker.json', JSON.stringify(parsedData));
+    fs.writeFile(pathTalkerFile, JSON.stringify(parsedData));
     return talkerObject;
   } catch (error) {
     return { status: 500, message: error.message };
   }
 }
 
-module.exports = { getAllTalkers, getOneTalker, verifyAuthToken, validateTalkerObj, saveOneTalker };
+async function updateOneTalker(req) {
+  try {
+    const { id } = req.params;
+    const numberId = Number(id);
+    const data = await fs.readFile(pathTalkerFile);
+    const parsedData = JSON.parse(data);
+    const { age, name, talk } = req.body;
+    const talkerObject = { id, name, age, talk };
+    if (!parsedData
+      .some((talker) => Number(talker.id) === numberId)) { throw new Error('Id inexistente'); }
+    const talkerData = parsedData.map((talker) => {
+      if (Number(talker.id) === numberId) { return talkerObject; }
+      return talker;
+    });
+    fs.writeFile(pathTalkerFile, JSON.stringify(talkerData));
+    return talkerObject;
+  } catch (error) {
+    return { status: 500, message: error.message };
+  }
+}
+
+module.exports = {
+  getAllTalkers,
+  getOneTalker,
+  verifyAuthToken,
+  validateTalkerObj,
+  saveOneTalker,
+  updateOneTalker,
+};

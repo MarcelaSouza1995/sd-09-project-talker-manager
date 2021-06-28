@@ -21,6 +21,11 @@ app.post('/talker', [
   middlewares.mdwTalkerObjVerifier,
   middlewares.mdwAddOneTalker,
 ]);
+app.put('/talker/:id', [
+  middlewares.mdwTalkerTokenVerifier,
+  middlewares.mdwTalkerObjVerifier,
+  middlewares.mdwUpdateOneTalker,
+]);
 
 app.use(middlewares.mdwGenericError);
 
