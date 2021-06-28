@@ -1,5 +1,5 @@
 const nameTest = (name) => {
-  if (!name || name === '') {
+  if (!name) {
     return ({ code: 400, message: 'O campo "name" é obrigatório' });
   } if (name.length < 3) {
     return ({ code: 400, message: 'O "name" deve ter pelo menos 3 caracteres' });
@@ -8,8 +8,7 @@ const nameTest = (name) => {
 };
 
 const ageTest = (age) => {
-  if (!age || age === '') {
-    console.log('entrou no teste age');
+  if (!age) {
     return ({ code: 400, message: 'O campo "age" é obrigatório' });
   } if (parseInt(age, 10) < 18) {
     return ({ code: 400, message: 'A pessoa palestrante deve ser maior de idade' });
@@ -34,7 +33,7 @@ const rateTest = (rate) => {
 };
 
 const talkTest = (talk) => {
-  if (!talk || talk === '' || !talk.watchedAt || !talk.rate) {
+  if (!talk || !talk.watchedAt || (!talk.rate && talk.rate !== 0)) {
     return ({ 
       code: 400, 
       message: 'O campo "talk" é obrigatório e "watchedAt" e "rate" não podem ser vazios',

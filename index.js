@@ -17,6 +17,12 @@ app.post('/login', middlewares.postLogin);
 app.post('/talker', 
 middlewares.tokenValidator, middlewares.talkerValidator, middlewares.postTalker);
 
+app.put('/talker/:id', 
+middlewares.tokenValidator, middlewares.talkerValidator, middlewares.putTalker);
+
+app.delete('/talker/:id', 
+middlewares.tokenValidator, middlewares.deleteTalker);
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
