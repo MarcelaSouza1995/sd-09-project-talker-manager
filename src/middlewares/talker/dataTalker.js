@@ -1,8 +1,12 @@
-const fs = require('fs');
+// const fs = require('fs');
+const { getFile } = require('../../services');
+
+const file = 'talker.json';
 
 const dataTalker = (req, _res, next) => {
   try {
-    req.data = fs.readFileSync('talker.json', 'utf8');
+    // req.data = fs.readFileSync('talker.json', 'utf8');
+    req.data = getFile(file);
     console.log('dataTalker');
     next();
   } catch (err) {

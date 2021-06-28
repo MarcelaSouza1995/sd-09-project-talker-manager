@@ -7,7 +7,7 @@
     "test": "jest --runInBand",
     "restore": "cp tests/seed.json talker.json",
     "start": "node index.js",
-    "startDev": "nodemon index.js",
+    "startDev": "nodemon index.js --ignore talker.json",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json .",
     "teste": "echo Carlos"
   },
