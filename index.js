@@ -1,7 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const { getAllTalkers, getTalkerById, saveNewTalker, editTalker } = require('./services');
+const {
+  getAllTalkers,
+  getTalkerById,
+  saveNewTalker,
+  editTalker,
+  deleteTalker,
+} = require('./services');
 const validate = require('./middlewares/index');
 
 const app = express();
@@ -60,6 +66,16 @@ app.put('/talker/:id',
     const editedTalker = await editTalker(Number(talkerId), req.body);
     if (editedTalker.status) return next(editedTalker);
     return res.status(200).json(editedTalker);
+});
+
+app.delete('/talker/:id',
+validate.validateToken,
+async (req, res, next) => {
+  const talkerId = req.params.id;
+  console.log(typeof talkerId, typeof Number(talkerId));
+  const newData = await deleteTalker(Number(talkerId));
+  if (newData.status) return next(newData);
+  return res.status(200).json({ message: 'Pessoa palestrante deletada com sucesso' });
 });
 
 app.use((err, _req, res, _next) => res.status(err.status).json({ message: err.message }));
