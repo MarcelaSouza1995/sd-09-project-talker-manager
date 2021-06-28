@@ -20,16 +20,17 @@ router.get(
 
 router.get('/:id', async (request, response) => {
   const { id } = request.params;
-  console.log(id);
   const allTalkers = await readFile();
   const talker = allTalkers.find((item) => item.id === +(id));
-  if (!talker) response.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  if (!talker) {
+    return response.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  }
   return response.status(HTTP_OK_STATUS).json(talker);
 });
 
 router.get('/', async (_request, response) => {
   const allTalkers = await readFile();
-  if (allTalkers.length === 0) response.status(HTTP_OK_STATUS).json([]);
+  if (allTalkers.length === 0) return response.status(HTTP_OK_STATUS).json([]);
   return response.status(HTTP_OK_STATUS).json(allTalkers);
 });
 
