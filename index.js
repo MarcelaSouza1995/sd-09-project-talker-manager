@@ -1,8 +1,18 @@
 const express = require('express');
+const fs = require('fs').promises;
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 
-const { getData, getTalkerById, validateLogin } = require('./talkerFunctions.js');
+const {
+  getData,
+  getTalkerById,
+  validateLogin,
+  validateNewTalker,
+  validateNameAndAge,
+  talkIsNotEmpty,
+  validateTalk,
+  validateToken,
+} = require('./talkerFunctions.js');
 
 const app = express();
 app.use(bodyParser.json());
@@ -42,6 +52,15 @@ app.post('/login', (req, res) => {
     res.status(HTTP_BAD_REQUEST).json({ message: error.message });
   }
 });
+
+app.post(
+  '/talker',
+  validateToken,
+  validateNameAndAge,
+  talkIsNotEmpty,
+  validateTalk,
+  validateNewTalker,
+);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
