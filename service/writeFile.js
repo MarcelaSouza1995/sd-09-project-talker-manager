@@ -4,7 +4,7 @@ const talkersFile = './talker.json';
 
 async function writeFile(data) {
   try {
-    await fs.writeFile(talkersFile, JSON.stringify(data));
+    return fs.writeFile(talkersFile, JSON.stringify(data));
   } catch (err) {
     return err;
   }

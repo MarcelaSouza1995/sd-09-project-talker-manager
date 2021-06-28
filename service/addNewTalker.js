@@ -8,7 +8,7 @@ async function addNewTalker(request, response) {
   const talker = request.body;
   talker.id = data.length + 1;
   const newData = [...data, talker];
-  writeFile(newData);
+  await writeFile(newData);
   return response.status(HTTP_CREATED_STATUS).json(talker);
 }
 
