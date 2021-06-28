@@ -20,6 +20,17 @@ const randonToken = (n) => {
 
 // adaptado de https://www.ti-enxame.com/pt/javascript/crie-um-token-aleatorio-em-javascript-com-base-nos-detalhes-do-usuario/941136694/ 
 
+const { validation } = require('./loginValidation');
+
+const { tokenValidation,
+  nameAgeValidation,
+  talkObjValidation,
+  talkComponentsValidation } = require('./addTalkerValidation');
+  
+  const writeTalkers = (json, writeFile) => fs.writeFileSync(json, JSON.stringify(writeFile));
+  // https://nodejs.org/api/fs.html#fs_fs_writefilesync_file_data_options
+  const getTalkers = () => JSON.parse(fs.readFileSync('./talker.json', 'utf8'));
+  // https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
@@ -27,11 +38,6 @@ app.get('/', (_request, response) => {
 app.listen(PORT, () => {
   console.log('Online');
 });
-
-const writeTalkers = (json, writeFile) => fs.writeFile(json, JSON.stringify(writeFile));
-// https://nodejs.org/api/fs.html#fs_fs_writefilesync_file_data_options
-const getTalkers = () => JSON.parse(fs.readFileSync('./talker.json', 'utf8'));
-// https://nodejs.org/api/fs.html#fs_fs_readfilesync_path_options
 
 // req 1:
 app.get('/talker', async (_req, res) => {
@@ -68,7 +74,6 @@ app.get('/talker/:id', async (req, res) => {
 });
 
 // req 3
-const { validation } = require('./loginValidation');
 
 app.post('/login',
   validation,
@@ -86,11 +91,6 @@ app.post('/login',
 // ou envia-se um formulário web completo. Em contraste o método de requisição GET do HTTP foi 
 // projetado para recuperar informações do servidor.
 // https://pt.wikipedia.org/wiki/POST_(HTTP)#:~:text=Em%20computa%C3%A7%C3%A3o%2C%20POST%20%C3%A9%20um,usado%20na%20World%20Wide%20Web.&text=Ele%20%C3%A9%20normalmente%20usado%20quando,para%20recuperar%20informa%C3%A7%C3%B5es%20do%20servidor.
-
-const { tokenValidation,
-  nameAgeValidation,
-  talkObjValidation,
-  talkComponentsValidation } = require('./addTalkerValidation');
   
   app.post('/talker',
   tokenValidation,
@@ -106,18 +106,12 @@ const { tokenValidation,
       newTalker.id = allTalkers.length + 1;
       allTalkers.push(newTalker);
       writeTalkers('./talker.json', allTalkers);
+      console.log(newTalker);
       return res.status(201).send(newTalker);
     } catch (error) {
-      return res.status(500).send({ error });
+      return res.status(201).send({ error });
     }
   }));
-  
-  //   function setFile(index, newName) {
-    //     simpsons[index].name = newName;
-    //     fs.promises.writeFile('./simpsons.json', JSON.stringify(simpsons))
-    //     .then(()=> console.log(simpsons))
-    //     .catch((error) => console.error(error.message))
-    // }
-    
+
     // consultei o repositório de meu colega João Castaldi 
     // https://github.com/tryber/sd-08-project-talker-manager/pull/34/files#diff-256422c877a0031a44f2168c442cddace08df1226b1e4ec5f529a0f869ea5b8aR19
