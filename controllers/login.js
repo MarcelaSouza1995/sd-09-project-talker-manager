@@ -10,7 +10,7 @@ const validateEmail = (req, res, next) => {
       .status(BAD_REQUEST_STATUS)
       .json({ message: 'O campo "email" é obrigatório' });
   }
-  const isEmailValid = /^\w+@\w+.\w{2,3}$/.test(email);
+  const isEmailValid = new RegExp(/^\w+@\w+.\w{2,3}$/).test(email);
   if (!isEmailValid) {
     return res
       .status(BAD_REQUEST_STATUS)
