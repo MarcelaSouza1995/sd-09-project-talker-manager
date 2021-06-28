@@ -19,7 +19,7 @@ const getTalker = ((req, res, _next) => {
   readTalker()
     .then((data) => {
       if (id === undefined) {
-        res.status(status).json(data);
+        return res.status(status).json(data);
       }
       let returnValue;
       returnValue = data.find((talker) => talker.id === parseInt(id, 10));
@@ -27,7 +27,7 @@ const getTalker = ((req, res, _next) => {
         returnValue = { message: 'Pessoa palestrante não encontrada' };
         status = HTTP_NOTFOUND_STATUS;
       }
-      res.status(status).json(returnValue);
+      return res.status(status).json(returnValue);
     });
 });
 
