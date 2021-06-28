@@ -28,6 +28,22 @@ app.post(
   middlewares.createTalker,
 );
 
+app.put(
+  '/talker/:id',
+  middlewares.validateToken,
+  middlewares.validateName,
+  middlewares.validateAge,
+  middlewares.validateTalk,
+  middlewares.validateDateAndRate,
+  middlewares.updateTalker,
+);
+
+app.delete(
+  '/talker/:id',
+  middlewares.validateToken,
+  middlewares.deleteTalker,
+);
+
 app.use((err, req, res, _next) => {
   res.status(404).send(err.message);
 });
