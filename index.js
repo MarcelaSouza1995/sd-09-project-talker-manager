@@ -16,6 +16,14 @@ const PORT = '3000';
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
+// requisito 7
+app.get('/talker/search', validate.validationToken, rescue(async (req, res, _next) => {
+  const { q } = req.query;
+  const talkers = await talkerFunc.readTalker();
+  if (!q || q.length === 0) return res.status(HTTP_OK_STATUS).json(talkers);
+  const newTalker = talkers.filter((talker) => talker.name.includes(q));
+  return res.status(HTTP_OK_STATUS).json({ newTalker });
+}));
 
 // requisito 1
 app.get('/talker', rescue(async (req, res) => {
@@ -44,17 +52,9 @@ app.post('/talker',
   validate.validationTalk,
   validate.validatorWatchedAtAndRate,
   rescue(async (req, res) => {
-    const { name, age, talk: { watchedAt, rate } } = req.body;
+    const { name, age, talk } = req.body;
     const talkers = await talkerFunc.readTalker();
-    const newTalker = {
-      id: talkers.length + 1,
-      name,
-      age,
-      talk: {
-        watchedAt,
-        rate,
-      },
-    };
+    const newTalker = { id: talkers.length + 1, name, age, talk };
     const newRead = [...talkers, newTalker];
     await talkerFunc.writeTalker(newRead);
     return res.status(201).json(newTalker);
@@ -66,18 +66,10 @@ validate.validationTalk,
 validate.validatorWatchedAtAndRate,
   rescue(async (req, res) => {
   const { id } = req.params;
-  const { name, age, talk: { watchedAt, rate } } = req.body;
+  const { name, age, talk } = req.body;
   const talkers = await talkerFunc.readTalker();
   const indexTalker = talkers.findIndex((talker) => talker.id === id);
-  const newTalker = {
-    id: Number(id),
-    name,
-    age,
-    talk: {
-      watchedAt,
-      rate,
-    },
-  };
+  const newTalker = { id: Number(id), name, age, talk };
   talkers.splice(indexTalker, 1, newTalker);
   await talkerFunc.writeTalker(talkers);
   return res.status(200).json(newTalker);
@@ -86,11 +78,8 @@ validate.validatorWatchedAtAndRate,
 app.delete('/talker/:id', rescue(async (req, res, _next) => {
   const { id } = req.params;
   const talkers = await talkerFunc.readTalker();
-
   const newTalkers = talkers.filter((talker) => talker.id !== Number(id));
-
   await talkerFunc.writeTalker(newTalkers);
-
   return res.status(HTTP_OK_STATUS).json({ message: 'Pessoa palestrante deletada com sucesso' });
 }));
 
