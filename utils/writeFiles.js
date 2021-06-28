@@ -5,4 +5,4 @@ const writeFiles = async (file, content) => {
   return response;
 };
 
-module.exports = writeFiles; 
+module.exports = writeFiles;

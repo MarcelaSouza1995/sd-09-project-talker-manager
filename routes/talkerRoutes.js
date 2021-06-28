@@ -9,10 +9,10 @@ const { validateTalkerName,
   validateTalk,
   validateToken } = require('../validations');
 
-router.get('/talker/search', validateToken, middlewares.searchTalker);
+  router.get('/talker/search', validateToken, middlewares.searchTalker);
 
   router.get('/talker', middlewares.getAllTalkers);
-
+  
   router.get('/talker/:id', middlewares.getTalkerById);
 
   router.post('/talker', 

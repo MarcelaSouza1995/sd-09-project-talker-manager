@@ -1,15 +1,16 @@
+const path = require('path');
 const writeFiles = require('../utils/writeFiles');
 const readFiles = require('../utils/readFiles');
 
-const file = 'talker.json';
+const file = path.resolve(__dirname, '..', 'talker.json');
+
 const editTalker = async (req, res) => {
-  const talkers = await readFiles();
+  const talkers = readFiles();
   const { name, age, talk: { watchedAt, rate } } = req.body;
   const { id } = req.params;
-  const filteredTalkers = talkers.filter((talker) => talker.id !== Number(id));
-  
+  const newTalkers = talkers.filter((talker) => talker.id !== Number(id));
   const insertTalker = {
-    id,
+    id: Number(id),
     name,
     age,
     talk: {
@@ -17,9 +18,9 @@ const editTalker = async (req, res) => {
       rate,
     },
   };
-
-  filteredTalkers.push(insertTalker);
-  writeFiles(file, filteredTalkers);
+  
+  newTalkers.push(insertTalker);
+  writeFiles(file, newTalkers);
   return res.status(200).json(insertTalker);
 };
 

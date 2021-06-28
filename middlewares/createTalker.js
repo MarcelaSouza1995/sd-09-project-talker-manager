@@ -1,10 +1,11 @@
-const writeFiles = require('../utils/writeFiles');
+const fs = require('fs');
+// const writeFiles = require('../utils/writeFiles');
 const readFiles = require('../utils/readFiles');
 
 const file = 'talker.json';
 
-const createTalker = async (req, res) => {
-  const talkers = await readFiles();
+const createTalker = (req, res) => {
+  const talkers = readFiles();
   const { name, age, talk } = req.body;
   const { watchedAt, rate } = talk;
 
@@ -19,7 +20,7 @@ const createTalker = async (req, res) => {
     };
     talkers.push(insertTalker);
 
-  writeFiles(file, talkers);
+  fs.writeFileSync(file, JSON.stringify(talkers));
   return res.status(201).json(insertTalker);
 };
 
