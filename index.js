@@ -1,12 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const crypto = require('crypto');
 
-const { getData } = require('./talkerFunctions.js');
+const { getData, getTalkerById, validateLogin } = require('./talkerFunctions.js');
 
 const app = express();
 app.use(bodyParser.json());
 
 const HTTP_OK_STATUS = 200;
+const HTTP_BAD_REQUEST = 400;
+const HTTP_NOT_FOUND = 404;
 const PORT = '3000';
 
 app.get('/talker', async (_req, res, next) => {
@@ -19,14 +22,24 @@ app.get('/talker', async (_req, res, next) => {
   next();
 });
 
-app.get('/talker/:id', async (req, res, next) => {
+app.get('/talker/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const allTalkers = await getData();
-    const desiredTalker = allTalkers.find((talker) => talker.id === Number(id));
-    res.status(HTTP_OK_STATUS).json(desiredTalker);
+    const talker = await getTalkerById(id);
+    res.status(HTTP_OK_STATUS).json(talker);
   } catch (error) {
-    next({ status: 404, message: 'Pessoa palestrante não encontrada' });
+    res.status(HTTP_NOT_FOUND).json({ message: error.message });
+  }
+});
+
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+  try {
+    validateLogin(email, password);
+    const token = crypto.randomBytes(8).toString('hex');
+    res.status(HTTP_OK_STATUS).json({ token });
+  } catch (error) {
+    res.status(HTTP_BAD_REQUEST).json({ message: error.message });
   }
 });
 
