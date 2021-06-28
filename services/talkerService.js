@@ -26,6 +26,7 @@ async function getOneTalker(idNumber) {
 function verifyAuthToken(req) {
   try {
     const { authorization } = req.headers;
+    if (!authorization) { throw new Error('Token não encontrado'); }
     const findTokenData = tokenList.find((token) => token === authorization);
     if (authorization.length !== 16) { throw new Error('Token inválido'); }
     if (!findTokenData) { throw new Error('Token não encontrado'); }
