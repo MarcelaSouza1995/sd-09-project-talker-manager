@@ -12,6 +12,11 @@ app.use(bodyParser.json());
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
+// não remova esse endpoint, e para o avaliador funcionar
+app.get('/', (_request, response) => {
+  response.status(HTTP_OK_STATUS).send();
+});
+
 // requisito 1
 app.get('/talker', rescue(async (req, res) => {
   const talkers = await talkerFunc.readTalker();
@@ -55,43 +60,28 @@ app.post('/talker',
     return res.status(201).json(newTalker);
   }));
 // requisito 5
-app.put('/talker/:id',
-  validate.validationNameAndAge,
-  validate.validationTalk,
-  validate.validatorWatchedAtAndRate,
-  rescue(async (req, res) => {
-    const talkers = await talkerFunc.readTalker();
-    const indexTalker = talkers.findIndex((talker) => talker.id === req.params.id);
-    console.log(indexTalker);
-    const { name, age, talk } = req.body;
-    const newTalker = { id: Number(req.params.id), name, age, talk };
-    talkers.splice(indexTalker, 1, newTalker);
-    await talkerFunc.writeTalker(talkers);
-
-    return res.status(200).json(newTalker);
-  }));
-
-app.put('/talker/:id',
+app.put('talker/:id',
 validate.validationNameAndAge,
 validate.validationTalk,
 validate.validatorWatchedAtAndRate,
   rescue(async (req, res) => {
-    const { id } = req.params;
-    const { name, age, talk: { watchedAt, rate } } = req.body;
-    const talkers = await talkerFunc.readTalker();
-    const indexTalker = talkers.findIndex((talker) => talker.id === id);
-    const newTalker = { id: Number(req.params.id), name, age, talk: { watchedAt, rate } };
-    talkers.splice(indexTalker, 1, newTalker);
-    await talkerFunc.writeTalker(talkers);
-
-    return res.status(200).json(newTalker);
-  }));
+  const { id } = req.params;
+  const { name, age, talk: { watchedAt, rate } } = req.body;
+  const talkers = await talkerFunc.readTalker();
+  const newTalker = {
+    id: Number(id),
+    name,
+    age,
+    talk: {
+      watchedAt,
+      rate,
+    },
+  };
+  talkers[id - 1] = newTalker;
+  await talkerFunc.writeTalker(talkers);
+  return res.status(200).json(newTalker);
+}));
 // requisito 6
-
-// não remova esse endpoint, e para o avaliador funcionar
-app.get('/', (_request, response) => {
-  response.status(HTTP_OK_STATUS).send();
-});
 
 app.listen(PORT, () => {
   console.log('Online');
