@@ -1,7 +1,9 @@
 const router = require('express').Router();
 const loginValidator = require('./loginValidator');
+const tokenValidator = require('./tokenValidator');
 const talkerRepository = require('./talkerRepository');
 const generetaToken = require('./utils');
+const createTalkerValidator = require('./createTalkerValidator');
 
 router.get('/talker', (_req, res) => {
     const talkers = talkerRepository.findAll();
@@ -20,6 +22,12 @@ router.get('/talker/:id', (req, res) => {
 router.post('/login', loginValidator, (req, res) => {
     const token = generetaToken();
     res.status(200).json({ token });
+});
+
+router.post('/talker', tokenValidator, createTalkerValidator, (req, res) => {
+    const { name, age, talk } = req.body;
+    const createdTalker = talkerRepository.insert({ name, age, talk });
+    res.status(201).json(createdTalker);
 });
 
 module.exports = router;
