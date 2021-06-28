@@ -1,6 +1,6 @@
 module.exports = {
   verifyEmail: (email) => {
-    const emailRegex = /^([a-zA-Z0-9_-]+)@mail\.com$/gm;
+    const emailRegex = new RegExp(/^[\w.]+@[a-z]+.\w{2,3}$/g);
     return emailRegex.test(email);
   },
   verifyPassword: (password) => {
