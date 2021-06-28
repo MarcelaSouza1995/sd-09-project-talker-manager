@@ -1,5 +1,5 @@
 const fs = require('fs').promises;
-const { tokenList } = require('../data/allTokens');
+const { tokenList, talkerList } = require('../data/data');
 
 async function getAllTalkers() {
   try {
@@ -77,4 +77,16 @@ function validateTalkerObj(req) {
   }
 }
 
-module.exports = { getAllTalkers, getOneTalker, verifyAuthToken, validateTalkerObj };
+function saveOneTalker(req) {
+  try {
+    const { age, name, talk } = req.body;
+    const id = talkerList.length + 1;
+    const talkerObject = { id, name, age, talk };
+    talkerList.push(talkerObject);
+    return talkerObject;
+  } catch (error) {
+    return { status: 500, message: error.message };
+  }
+}
+
+module.exports = { getAllTalkers, getOneTalker, verifyAuthToken, validateTalkerObj, saveOneTalker };

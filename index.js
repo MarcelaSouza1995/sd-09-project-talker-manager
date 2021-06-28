@@ -19,7 +19,7 @@ app.post('/login', [middlewares.mdwLoginVerifier, middlewares.mdwLoginToken]);
 app.post('/talker', [
   middlewares.mdwTalkerTokenVerifier,
   middlewares.mdwTalkerObjVerifier,
-  // middlewares.mdwAddOneTalker,
+  middlewares.mdwAddOneTalker,
 ]);
 
 app.use(middlewares.mdwGenericError);

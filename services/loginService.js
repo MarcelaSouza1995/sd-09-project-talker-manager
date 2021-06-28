@@ -1,5 +1,5 @@
 const randomToken = require('random-token');
-const { tokenList } = require('../data/allTokens');
+const { tokenList } = require('../data/data');
 
 function getLoginToken() {
   try {
