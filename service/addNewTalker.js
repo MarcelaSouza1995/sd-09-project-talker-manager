@@ -9,7 +9,7 @@ async function addNewTalker(request, response) {
   talker.id = data.length + 1;
   const newData = [...data, talker];
   writeFile(newData);
-  response.status(HTTP_CREATED_STATUS).json(talker);
+  return response.status(HTTP_CREATED_STATUS).json(talker);
 }
 
 module.exports = addNewTalker;

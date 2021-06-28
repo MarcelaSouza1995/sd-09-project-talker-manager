@@ -10,7 +10,7 @@ async function updateTalker(request, response) {
   const newData = data
     .map((talker) => ((+(talker.id) !== +(id) ? talker : { ...talkerUpdated })));
   writeFile(newData);
-  response.status(HTTP_OK_STATUS).json(talkerUpdated);
+  return response.status(HTTP_OK_STATUS).json(talkerUpdated);
 }
 
 module.exports = updateTalker;

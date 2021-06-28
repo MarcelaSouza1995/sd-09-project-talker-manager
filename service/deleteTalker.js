@@ -9,7 +9,7 @@ async function deleteTalker(request, response) {
   const data = await readFile();
   const deletedTalker = data.filter((talker) => +(talker.id) !== +(id));
   writeFile(deletedTalker);
-  response.status(HTTP_OK_STATUS).json({ message });
+  return response.status(HTTP_OK_STATUS).json({ message });
 }
 
 module.exports = deleteTalker;
