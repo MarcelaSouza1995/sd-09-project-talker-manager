@@ -33,41 +33,17 @@ app.post('/login', validate.validationEmail, validate.validationPassword, (req, 
   res.status(200).json({ token });
 });
 // requisito 4
+app.use(validate.validationToken);
 app.post('/talker',
-validate.validationToken,
-validate.validationName,
-validate.validationAge,
-validate.validationTalk,
-validate.validatorWatchedAtAndRate,
-rescue(async (req, res) => {
-  const { name, age, talk: { watchedAt, rate } } = req.body;
-  const talkers = await talkerFunc.readTalker();
-  const newTalker = {
-    id: talkers.length + 1,
-    name,
-    age,
-    talk: {
-      watchedAt,
-      rate,
-    },
-  };
-  const newRead = [...talkers, newTalker];
-  await talkerFunc.writeTalker(newRead);
-  return res.status(201).json(newTalker);
-}));
-// requisito 5
-app.put('/talker/:id',
-validate.validationToken,
-validate.validationName,
-validate.validationAge,
-validate.validationTalk,
-validate.validatorWatchedAtAndRate,
-rescue(async (req, res) => {
-  const { id } = req.params;
-  const talkers = await talkerFunc.readTalker();
+  validate.validationName,
+  validate.validationAge,
+  validate.validationTalk,
+  validate.validatorWatchedAtAndRate,
+  rescue(async (req, res) => {
     const { name, age, talk: { watchedAt, rate } } = req.body;
+    const talkers = await talkerFunc.readTalker();
     const newTalker = {
-      id: Number(id),
+      id: talkers.length + 1,
       name,
       age,
       talk: {
@@ -75,12 +51,26 @@ rescue(async (req, res) => {
         rate,
       },
     };
-  
-    talkers[id - 1] = newTalker;
+    const newRead = [...talkers, newTalker];
+    await talkerFunc.writeTalker(newRead);
+    return res.status(201).json(newTalker);
+  }));
+// requisito 5
+app.put('/talker/:id',
+  validate.validationName,
+  validate.validationAge,
+  validate.validationTalk,
+  validate.validatorWatchedAtAndRate,
+  rescue(async (req, res) => {
+    const talkers = await talkerFunc.readTalker();
+    const indexTalker = talkers.findIndex((talker) => talker.id === req.params.id);
+    const { name, age, talk } = req.body;
+    const newTalker = { id: Number(req.params.id), name, age, talk };
+    talkers.splice(indexTalker, 1, newTalker);
     await talkerFunc.writeTalker(talkers);
-  
+
     return res.status(200).json(newTalker);
-}));
+  }));
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
