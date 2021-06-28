@@ -18,6 +18,16 @@ app.get('/talker/:id', middlewares.getTalkerById);
 
 app.post('/login', middlewares.generateToken);
 
+app.post(
+  '/talker',
+  middlewares.validateToken,
+  middlewares.validateName,
+  middlewares.validateAge,
+  middlewares.validateTalk,
+  middlewares.validateDateAndRate,
+  middlewares.createTalker,
+);
+
 app.use((err, req, res, _next) => {
   res.status(404).send(err.message);
 });
